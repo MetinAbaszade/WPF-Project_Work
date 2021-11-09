@@ -18,7 +18,7 @@
 
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1.1*"></RowDefinition>
+                <RowDefinition Height="1.6*"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
@@ -28,6 +28,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition Height="1.9*"></RowDefinition>
                     <RowDefinition Height="1.8*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -74,13 +75,23 @@
                 <Button Grid.Row="3" Height="30" Width="120" Command="{Binding Rotate_Command}">
                     Rotate
                 </Button>
+                <Button Grid.Row="4" Height="30" Width="120" Command="{Binding Get_Taxi_Command}">
+                    Get Taxi
+                </Button>
 
             </Grid>
 
         </Grid>
 
         <Grid Grid.Column="1">
-            <map:Map ZoomLevel="12" Name="m" CredentialsProvider="{Binding Provider}"></map:Map>
+            <!--CredentialsProvider="{Binding Provider}"-->
+            <map:Map Name="m" CredentialsProvider="{Binding Provider}" ZoomLevel="{Binding zoomlevel}">
+
+                <map:MapItemsControl ItemsSource="{Binding Route}">
+
+                </map:MapItemsControl>
+
+            </map:Map>
         </Grid>
 
     </Grid>
