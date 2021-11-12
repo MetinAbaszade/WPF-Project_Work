@@ -63,9 +63,9 @@ namespace Project_Work_WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Hidden_Icon {
+        internal static System.Drawing.Bitmap Back_Icon {
             get {
-                object obj = ResourceManager.GetObject("Hidden_Icon", resourceCulture);
+                object obj = ResourceManager.GetObject("Back_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Project_Work_WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap images {
+        internal static System.Drawing.Bitmap Hidden_Icon {
             get {
-                object obj = ResourceManager.GetObject("images", resourceCulture);
+                object obj = ResourceManager.GetObject("Hidden_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

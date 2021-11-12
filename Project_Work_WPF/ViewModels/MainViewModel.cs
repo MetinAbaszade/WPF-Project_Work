@@ -1,60 +1,116 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Maps.MapControl.WPF;
-using BingMapsRESTToolkit;
-using System.Windows;
-using Project_Work_WPF.Views;
+using System.Threading;
+using Project_Work_WPF.CustomExceptions;
 using Project_Work_WPF.Models;
-using System.Windows.Controls;
+using Project_Work_WPF.Navigation;
 using PropertyChanged;
 
 namespace Project_Work_WPF.ViewModels
 {
 	[AddINotifyPropertyChangedInterface]
-	public class MainViewModel
+	public class MainViewModel : BaseViewModel
 	{
-		public static string From;
+		static List<Person> People = new List<Person>();
 
-		public static Uri uri { get; set; } 
-
-		Page page = new Page();
-
-		MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-
-		Login_Page login_page = new Login_Page();
-
-		User_Page user_page = new User_Page();
-
-		static List<Person> Users = new List<Person>();
-		static List<Person> Admins = new List<Person>();
-
-		public static void Sign_in(string username, string password)
+		public static void Add_Person(string username, string password)
 		{
-			if (From == "Admin")
+			if (People.Exists(x => x.Username == username))
 			{
-				if (Admins.Exists(x => x.Username == username && x.Password == password))
-				{
-					uri = new Uri("Admin_Page.xaml", UriKind.Relative);
-				}
+				throw new InvalidDataException();
 			}
+			else {
+				Person person = new Person(username, password);
+				People.Add(person);
+			}
+		}
 
+		public static bool Check_Person(string username, string password)
+		{
+
+			if (People.Exists(x => x.Username == username && x.Password == password))
+			{
+				return true;
+			}
 			else
 			{
-				if (Users.Exists(x => x.Username == username && x.Password == password))
-				{
-					uri = new Uri("User_Page.xaml", UriKind.Relative);
-				}
+				return false;
+			}
+		}
+
+
+		private List<IPageViewModel> _pageViewModels;
+
+		public List<IPageViewModel> PageViewModels
+		{
+			get
+			{
+				if (_pageViewModels == null)
+					_pageViewModels = new List<IPageViewModel>();
+
+				return _pageViewModels;
+			}
+		}
+
+		public IPageViewModel _currentPageViewModel { get; set; }
+
+		public IPageViewModel CurrentPageViewModel
+		{
+
+			get
+			{
+				return _currentPageViewModel;
 			}
 
+			set
+			{
+				_currentPageViewModel = value;
+				OnPropertyChanged("CurrentPageViewModel");
+			}
 		}
+
+		private void ChangeViewModel(IPageViewModel viewModel)
+		{
+			if (!PageViewModels.Contains(viewModel))
+				PageViewModels.Add(viewModel);
+
+			CurrentPageViewModel = PageViewModels
+				.FirstOrDefault(vm => vm == viewModel);
+		}
+
+		private void GoToLogIn(object obj)
+		{
+			ChangeViewModel(PageViewModels[0]);
+		}
+
+		private void GoToUser(object obj)
+		{
+			ChangeViewModel(PageViewModels[1]);
+		}
+
+		private void GoToRegister(object obj)
+		{
+			(PageViewModels[2] as Register_Page_ViewModel).Passwordd = string.Empty;
+			(PageViewModels[2] as Register_Page_ViewModel).password_box_visibility = System.Windows.Visibility.Visible;
+			(PageViewModels[2] as Register_Page_ViewModel).password_box_visibility_2 = System.Windows.Visibility.Collapsed;
+			(PageViewModels[2] as Register_Page_ViewModel).Hidden = false;
+			ChangeViewModel(PageViewModels[2]);
+		}
+
 
 		public MainViewModel()
 		{
-			uri = new Uri("User_Page.xaml", UriKind.Relative);
+			// Add available pages and set page
+			PageViewModels.Add(new Login_Page_ViewModel());
+			PageViewModels.Add(new User_Page_ViewModel());
+			PageViewModels.Add(new Register_Page_ViewModel());
+
+			ChangeViewModel(PageViewModels[0]);
+			 
+
+			Mediator.Subscribe("GoToLogIn", GoToLogIn);
+			Mediator.Subscribe("GoToUser", GoToUser);
+			Mediator.Subscribe("GoToRegister", GoToRegister);
 		}
 	}
 }

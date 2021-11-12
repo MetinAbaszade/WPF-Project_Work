@@ -1,61 +1,95 @@
 ﻿using Project_Work_WPF.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Project_Work_WPF.Navigation;
+using PropertyChanged;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Project_Work_WPF.ViewModels
 {
-	class Login_Page_ViewModel
-	{ 
-		public static string Username { get; set; }
-		public static string Password { get; set; }
 
-		public RelayCommand SignIn_Command { get; set; }
+	[AddINotifyPropertyChangedInterface]
+	public class Login_Page_ViewModel : BaseViewModel, IPageViewModel
+	{
+		public string Username { get; set; }
 
-		public RelayCommand Hide_Command { get; set; }
+		public string Password { get; set; }
 
-		private void SignIn()
+		bool Hidden = false;
+
+		public System.Windows.Visibility password_box_visibility { get; set; } = System.Windows.Visibility.Visible;
+		public System.Windows.Visibility password_box_visibility_2 { get; set; } = System.Windows.Visibility.Collapsed;
+
+		private void Hide_Button_Click(object obj)
 		{
-			MainViewModel.Sign_in(Username, Password);
+
+			if (!Hidden)
+			{
+				password_box_visibility = System.Windows.Visibility.Hidden;
+				password_box_visibility_2 = System.Windows.Visibility.Visible;
+
+				Hidden = true;
+			}
+
+			else
+			{
+				password_box_visibility = System.Windows.Visibility.Visible;
+				password_box_visibility_2 = System.Windows.Visibility.Hidden;
+
+				Hidden = false;
+			}
+
 		}
 
-		Predicate<object> SignIn_Predicate = 
-			new Predicate<object>(x => Username != string.Empty && Password != string.Empty);
+		public Login_Page_ViewModel()
+		{
+			Hide = new RelayCommand(Hide_Button_Click);
+		}
 
-		//private void Hide_Button_Click()
-		//{
-		//	if (!Hidden)
-		//	{
-		//		password_box.Visibility = System.Windows.Visibility.Collapsed;
-		//		MyTextBox.Text = password_box.Password;
-		//		MyTextBox.Visibility = System.Windows.Visibility.Visible;
+		private RelayCommand _goTo1;
 
-		//		MyTextBox.Focus();
-		//		Hidden = true;
-		//	}
-		//	else
-		//	{
-		//		password_box.Password = MyTextBox.Text;
-		//		password_box.Visibility = System.Windows.Visibility.Visible;
-		//		MyTextBox.Visibility = System.Windows.Visibility.Collapsed;
-
-		//		password_box.Focus();
-		//		Hidden = false;
-		//	}
-		//}
-
-		public Login_Page_ViewModel() {
-
-			SignIn_Command = new RelayCommand(
-				a =>
+		public RelayCommand GoTo_SignIn
+		{
+			get
+			{
+				if (MainViewModel.Check_Person(Username, Password))
 				{
-					SignIn();
-				},
-				SignIn_Predicate
-			);
+
+					return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
+					{
+						Username = string.Empty;
+						Password = string.Empty;
+						Mediator.Notify("GoToUser", "");
+					}));
+				}
+
+				return new RelayCommand(x =>
+				{
+					MessageBox.Show("Data is False");
+				}
+				) ?? (new RelayCommand(x =>
+				{
+					MessageBox.Show("Data is False");
+				}));
+			}
+		}
+
+		private ICommand _goTo2;
+
+		public ICommand GoTo_Register
+		{
+			get
+			{
+				return _goTo2 ?? (_goTo2 = new RelayCommand(x =>
+					{
+						Username = string.Empty;
+						Password = string.Empty;
+						Mediator.Notify("GoToRegister", "");
+					}));
+			}
 
 		}
+
+		public RelayCommand Hide { get; set; }
+
 	}
 }

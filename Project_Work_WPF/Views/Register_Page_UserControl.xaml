@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Project_Work_WPF.Views.Register_Page_UserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_Work_WPF.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:components="clr-namespace:Project_Work_WPF.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Purple.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid Background="Orange">
+
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="6*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button VerticalAlignment="Top" Margin="13, 13, 0, 0"
+                    Width="40" HorizontalAlignment="Left" Background="Transparent" 
+                    BorderThickness="1" BorderBrush="Black" Command="{Binding GoTo_SignIn}">
+                <Image Source="/Resources/Back Icon.png" Margin="-20"></Image>
+            </Button>
+
+            <Grid Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBox Name="Username_TextBox" Grid.Row="1" materialDesign:HintAssist.Hint="Username"  
+                         FontSize="20" Text="{Binding Username}"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                         HorizontalAlignment="Center" Width="150"/>
+
+                <components:BindablePasswordBox x:Name ="password_box"  Grid.Row="2" 
+                             materialDesign:HintAssist.Hint="Password"  FontSize="20" 
+                             Visibility="{Binding password_box_visibility}"
+                             Password="{Binding Password}"
+                             HorizontalAlignment="Center" Width="150"/>
+
+                <TextBox  x:Name="MyTextBox" Grid.Row="2" 
+                          Text="{Binding Passwordd}"
+                          materialDesign:HintAssist.Hint="Password" FontSize="20"
+                          Visibility="{Binding password_box_visibility_2}" 
+                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                          HorizontalAlignment="Center" Width="150"/>
+
+
+                <Button Grid.Row="2" Grid.Column="1" Width="30" Height="19" 
+                        HorizontalAlignment="Right" Margin="0, 12, 23, 0"  
+                        Background="Transparent"  BorderThickness="0"
+                        Command="{Binding Hide}">
+                    <Image Source ="/Resources/Hidden Icon.png" Margin="-15"></Image>
+                </Button>
+
+                <components:BindablePasswordBox  
+                    Grid.Row="3" materialDesign:HintAssist.Hint="Repeat Password"              
+                    FontSize="18"  HorizontalAlignment="Center" Width="150"
+                    Password="{Binding Repeat_Password}"/>
+
+                <Button Grid.Row="4"  Content="Register" HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" Margin="0, 10, 0, 0" 
+                        Command="{Binding Register_Command, UpdateSourceTrigger=Default}"/>
+
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

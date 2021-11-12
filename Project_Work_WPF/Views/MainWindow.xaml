@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:Project_Work_WPF.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Frame Name="frm" Source="{Binding uri}">
-            
-        </Frame> 
-    </Grid>
+
+
+    <ContentControl Content="{Binding CurrentPageViewModel}" />
+
+
 </Window>
 
  

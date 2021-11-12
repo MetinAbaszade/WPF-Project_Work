@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Project_Work_WPF.ViewModels;
+using Project_Work_WPF.Views;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,12 @@ namespace Project_Work_WPF
 	/// </summary>
 	public partial class App : Application
 	{
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+
+			MainWindow app = new MainWindow(); 
+			app.Show();
+		}
 	}
 }

@@ -1,37 +1,39 @@
 ﻿using BingMapsRESTToolkit;
 using Microsoft.Maps.MapControl.WPF;
 using Project_Work_WPF.Commands;
+using Project_Work_WPF.Navigation;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Linq;
 using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Project_Work_WPF.ViewModels
 {
 	[AddINotifyPropertyChangedInterface]
-	class User_Page_ViewModel
+	class User_Page_ViewModel : BaseViewModel, IPageViewModel
 	{
+		DispatcherTimer timer = new DispatcherTimer();
+
 		public double zoomlevel { get; set; }
 
 		List<Pushpin> taxies = new List<Pushpin>();
 		Pushpin MyPushPin, MyPushPin_2, Taxi;
 		ImageBrush imgB = new ImageBrush();
-		MapPolyline routeLine;
+		MapPolyline routeLine, Taxi_routeLine;
+		int taxi_bound, route_bound;
 
 		public ObservableCollection<UIElement> Route { get; set; } = new ObservableCollection<UIElement>();
 
-		public static string From { get; set; } = "Baku";
+		public static string From { get; set; } = "Nerimanov Baku";
 
-		public static string To { get; set; } = "Italy";
+		public static string To { get; set; } = "Qara Qarayev Baku";
 
 		Predicate<object> Rotate_Predicate = new Predicate<object>(x => From != string.Empty && To != string.Empty);
 
@@ -73,6 +75,38 @@ namespace Project_Work_WPF.ViewModels
 			);
 
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
+			timer.Interval = new TimeSpan(0, 0, 0, 2);
+			timer.Tick += Timer_Tick;
+		}
+
+		int counter = 0;
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			Taxi.Location = Taxi_routeLine.Locations[0];
+			Taxi_routeLine.Locations.Remove(Taxi_routeLine.Locations[0]);
+			counter++;
+			if (counter > taxi_bound - 1)
+			{
+				Route.Add(routeLine);
+				counter = 0;
+				timer.Tick -= Timer_Tick;
+				timer.Tick += Timer_Tick_2;
+				timer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+				timer.Stop();
+				timer.Start();
+			}
+		}
+
+		private void Timer_Tick_2(object sender, EventArgs e)
+		{
+			Taxi.Location = routeLine.Locations[0];
+			routeLine.Locations.Remove(routeLine.Locations[0]);
+			counter++;
+			if (counter > route_bound - 1)
+			{
+				Route.Remove(routeLine);
+				timer.Stop();
+			}
 		}
 
 
@@ -110,14 +144,14 @@ namespace Project_Work_WPF.ViewModels
 				routeLine.Stroke = new SolidColorBrush(Colors.Blue);
 				routeLine.Opacity = 150;
 
-				int bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
+				route_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
 
 				MyPushPin_2 = new Pushpin();
 
 				var FromLatitude_2 =
-					((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[bound - 1][0];
+					((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[route_bound - 1][0];
 				var FromLongitude_2 =
-					((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[bound - 1][1];
+					((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[route_bound - 1][1];
 
 				var location_2 = new Microsoft.Maps.MapControl.WPF.Location(FromLatitude_2, FromLongitude_2);
 				MyPushPin_2.Location = location_2;
@@ -129,7 +163,7 @@ namespace Project_Work_WPF.ViewModels
 
 				//Route.SetView(new Microsoft.Maps.MapControl.WPF.Location((location.Latitude + location_2.Latitude) / 2, (location.Longitude + location_2.Longitude) / 2), 7.0f);
 
-				for (int i = 0; i < bound; i++)
+				for (int i = 0; i < route_bound; i++)
 				{
 					routeLine.Locations.Add(new Microsoft.Maps.MapControl.WPF.Location
 					{
@@ -272,8 +306,8 @@ namespace Project_Work_WPF.ViewModels
 
 				string latitude = Taxi.Location.Latitude.ToString().Replace(',', '.');
 				string longitude = Taxi.Location.Longitude.ToString().Replace(',', '.');
-				string latitude_2 = MyPushPin_2.Location.Latitude.ToString().Replace(',', '.');
-				string longitude_2 = MyPushPin_2.Location.Longitude.ToString().Replace(',', '.');
+				string latitude_2 = MyPushPin.Location.Latitude.ToString().Replace(',', '.');
+				string longitude_2 = MyPushPin.Location.Longitude.ToString().Replace(',', '.');
 
 				string URL = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
 					latitude + "," +
@@ -284,15 +318,16 @@ namespace Project_Work_WPF.ViewModels
 
 				geocodeRequest = new Uri(URL);
 				r = await GetResponse(geocodeRequest);
-				int bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.Length;
 
-				MapPolyline Taxi_routeLine = new MapPolyline();
+				taxi_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.Length;
+
+				Taxi_routeLine = new MapPolyline();
 				Taxi_routeLine.Locations = new LocationCollection();
 				Taxi_routeLine.Stroke = new SolidColorBrush(Colors.Red);
 				Taxi_routeLine.StrokeThickness = 2;
 				Taxi_routeLine.Opacity = 350;
 
-				for (int i = 0; i < bound; i++)
+				for (int i = 0; i < taxi_bound; i++)
 				{
 					Taxi_routeLine.Locations.Add(new Microsoft.Maps.MapControl.WPF.Location
 					{
@@ -305,8 +340,7 @@ namespace Project_Work_WPF.ViewModels
 
 				Route.Remove(routeLine);
 				Route.Add(Taxi_routeLine);
-
-				MessageBox.Show("Finished!!");
+				timer.Start();
 			}
 		}
 	}
