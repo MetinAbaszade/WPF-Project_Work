@@ -41,12 +41,15 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="1.2*"></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
+                
+                <Image Grid.Row="1" Source="/Resources/EyeTaxi Logo .png" Height="85" Margin="20, 0, 0, 0"></Image>
+                 
 
                 <Grid Grid.Row="4" Margin="0, 10, 0, 0">
 

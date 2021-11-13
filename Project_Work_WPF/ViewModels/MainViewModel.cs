@@ -85,6 +85,7 @@ namespace Project_Work_WPF.ViewModels
 
 		private void GoToUser(object obj)
 		{
+			(PageViewModels[1] as User_Page_ViewModel).GetCurrentLocation();
 			ChangeViewModel(PageViewModels[1]);
 		}
 
@@ -105,7 +106,7 @@ namespace Project_Work_WPF.ViewModels
 			PageViewModels.Add(new User_Page_ViewModel());
 			PageViewModels.Add(new Register_Page_ViewModel());
 
-			ChangeViewModel(PageViewModels[0]);
+			ChangeViewModel(PageViewModels[1]);
 			 
 
 			Mediator.Subscribe("GoToLogIn", GoToLogIn);

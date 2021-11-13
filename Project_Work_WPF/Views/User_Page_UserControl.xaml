@@ -3,20 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:map="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" 
+             xmlns:map="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"  
              xmlns:local="clr-namespace:Project_Work_WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
+
     <Grid Background="White">
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="2.3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.6*"></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -48,11 +48,14 @@
 
                         <TextBox Name="From_Textbox" FontSize="18" Width="198" Height="25"                               
                                  HorizontalAlignment="Center"  Text="{Binding From}"   
-                                 Background="Transparent"  
+                                 Background="Transparent" 
                                  BorderThickness="0" VerticalAlignment="Center" Margin="2, 4, 2, 4"  
-                                 FontFamily="SimSun"> 
-                        </TextBox> 
-                        
+                                 FontFamily="SimSun">
+                            <TextBox.InputBindings>
+                                <MouseBinding  Gesture="LeftClick" Command="{Binding From_Textbox_GotFocus_Command}" ></MouseBinding>
+                            </TextBox.InputBindings>
+                        </TextBox>
+
                     </Border>
 
                 </Grid>
@@ -74,8 +77,11 @@
                                  FontSize="18" HorizontalAlignment="Center" Text="{Binding To}"
                                  VerticalAlignment="Center"  Margin="2, 4, 2, 4"
                                  FontFamily="SimSun">
-                        </TextBox> 
-                        
+                            <TextBox.InputBindings>
+                                <MouseBinding  Gesture="LeftClick" Command="{Binding To_Textbox_GotFocus_Command}" ></MouseBinding>
+                            </TextBox.InputBindings>
+                        </TextBox>
+
                     </Border>
 
                 </Grid>
@@ -86,20 +92,36 @@
 
                 <Button Grid.Row="4" Height="30" Width="120" Command="{Binding Get_Taxi_Command}" Background="Transparent" BorderBrush="#4f4747" BorderThickness="2.2">
                     Get Taxi
-                </Button> 
+                </Button>
             </Grid>
-            <Grid Grid.Row="1" Background="#777764"></Grid>
+            
+            <Grid Grid.Row="1" Background="#777764">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="2" Height="35" Width="150" FontSize="18" FontFamily="Times New Roman"
+                          Margin="0, 0, 0, 8">History</Button>
+                <Button Grid.Row="3" Height="35" Width="150" FontSize="18" FontFamily="Times New Roman" Command="{Binding Log_Out}"
+                        Margin="0, 0, 0, 8"> Log Out </Button>
+            </Grid>
         </Grid>
 
         <!--CredentialsProvider="{Binding Provider}"-->
 
         <Grid Grid.Column="1">
-            <map:Map Name="m" CredentialsProvider="{Binding Provider}" ZoomLevel="{Binding zoomlevel}" FontFamily="Showcard Gothic">
+            <map:Map Name="m" 
+                     ZoomLevel="{Binding zoomlevel}" >
 
                 <map:MapItemsControl ItemsSource="{Binding Route}">
 
                 </map:MapItemsControl>
-
+                
+                <!--<map:Map.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding Map_DoubleClick_Command}" CommandParameter="{Binding}"></MouseBinding>
+                </map:Map.InputBindings>-->
             </map:Map>
         </Grid>
 

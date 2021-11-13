@@ -22,11 +22,17 @@ C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Extensions.Loggin
 C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Extensions.Options.ConfigurationExtensions.6.0.0\lib\net461\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Extensions.Options.6.0.0\lib\net461\Microsoft.Extensions.Options.dll
 C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll
+C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll
 C:\Users\User\source\repos\Project_Work_WPF\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Core.8.1.97\lib\net47\Prism.dll
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Unity.8.1.97\lib\net47\Prism.Unity.Wpf.dll
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Wpf.8.1.97\lib\net47\Prism.Wpf.dll
 C:\Users\User\source\repos\Project_Work_WPF\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll
 C:\Users\User\source\repos\Project_Work_WPF\packages\System.Diagnostics.DiagnosticSource.6.0.0\lib\net461\System.Diagnostics.DiagnosticSource.dll
 C:\Users\User\source\repos\Project_Work_WPF\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll
 C:\Users\User\source\repos\Project_Work_WPF\packages\System.Text.Json.6.0.0\lib\net461\System.Text.Json.dll
+C:\Users\User\source\repos\Project_Work_WPF\packages\Unity.Abstractions.5.11.7\lib\net47\Unity.Abstractions.dll
+C:\Users\User\source\repos\Project_Work_WPF\packages\Unity.Container.5.11.11\lib\net47\Unity.Container.dll
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\System.ValueTuple.dll
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\System.Memory.dll
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\System.Buffers.dll
@@ -57,8 +63,18 @@ C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Extensions.Loggin
 C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Extensions.Options.6.0.0\lib\net461\Microsoft.Extensions.Options.xml
 C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Extensions.Options.ConfigurationExtensions.6.0.0\lib\net461\Microsoft.Extensions.Options.ConfigurationExtensions.xml
 C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.xml
+C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.pdb
+C:\Users\User\source\repos\Project_Work_WPF\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.xml
 C:\Users\User\source\repos\Project_Work_WPF\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.xml
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Core.8.1.97\lib\net47\Prism.pdb
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Core.8.1.97\lib\net47\Prism.xml
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Unity.8.1.97\lib\net47\Prism.Unity.Wpf.pdb
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Unity.8.1.97\lib\net47\Prism.Unity.Wpf.xml
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Wpf.8.1.97\lib\net47\Prism.Wpf.pdb
+C:\Users\User\source\repos\Project_Work_WPF\packages\Prism.Wpf.8.1.97\lib\net47\Prism.Wpf.xml
 C:\Users\User\source\repos\Project_Work_WPF\packages\RestSharp.106.13.0\lib\net452\RestSharp.xml
 C:\Users\User\source\repos\Project_Work_WPF\packages\System.Diagnostics.DiagnosticSource.6.0.0\lib\net461\System.Diagnostics.DiagnosticSource.xml
 C:\Users\User\source\repos\Project_Work_WPF\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.xml
 C:\Users\User\source\repos\Project_Work_WPF\packages\System.Text.Json.6.0.0\lib\net461\System.Text.Json.xml
+C:\Users\User\source\repos\Project_Work_WPF\packages\Unity.Abstractions.5.11.7\lib\net47\Unity.Abstractions.pdb
+C:\Users\User\source\repos\Project_Work_WPF\packages\Unity.Container.5.11.11\lib\net47\Unity.Container.pdb

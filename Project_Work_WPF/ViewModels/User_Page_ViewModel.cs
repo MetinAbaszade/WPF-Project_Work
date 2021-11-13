@@ -1,15 +1,23 @@
 ﻿using BingMapsRESTToolkit;
 using Microsoft.Maps.MapControl.WPF;
+using Newtonsoft.Json;
+using Prism.Commands;
 using Project_Work_WPF.Commands;
 using Project_Work_WPF.Navigation;
+using Project_Work_WPF.Services;
+using Project_Work_WPF.Views;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Globalization;
+using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -19,6 +27,8 @@ namespace Project_Work_WPF.ViewModels
 	[AddINotifyPropertyChangedInterface]
 	class User_Page_ViewModel : BaseViewModel, IPageViewModel
 	{
+		string SelectedTxtBox;
+
 		DispatcherTimer timer = new DispatcherTimer();
 
 		public double zoomlevel { get; set; }
@@ -28,18 +38,26 @@ namespace Project_Work_WPF.ViewModels
 		ImageBrush imgB = new ImageBrush();
 		MapPolyline routeLine, Taxi_routeLine;
 		int taxi_bound, route_bound;
+		private static readonly HttpClient _httpClient = new HttpClient();
 
 		public ObservableCollection<UIElement> Route { get; set; } = new ObservableCollection<UIElement>();
 
-		public static string From { get; set; } = "Nerimanov Baku";
+		public string From { get; set; }
 
-		public static string To { get; set; } = "Qara Qarayev Baku";
+		public string To { get; set; } = "Qara Qarayev Baku";
 
-		Predicate<object> Rotate_Predicate = new Predicate<object>(x => From != string.Empty && To != string.Empty);
 
 		public RelayCommand Rotate_Command { get; set; }
 
 		public RelayCommand Get_Taxi_Command { get; set; }
+
+		public RelayCommand From_Textbox_GotFocus_Command { get; set; }
+		public RelayCommand To_Textbox_GotFocus_Command { get; set; }
+		public RelayCommand Log_Out_Command { get; set; }
+
+
+		public RelayCommand Map_DoubleClick_Command { get; set; }
+		public DelegateCommand<object> SelectedCommand { get; private set; }
 
 		public ApplicationIdCredentialsProvider Provider { get; set; } =
 			new ApplicationIdCredentialsProvider(ConfigurationManager.AppSettings["apiKey"]);
@@ -56,27 +74,44 @@ namespace Project_Work_WPF.ViewModels
 			}
 		}
 
+
+		public object aaa { get; set; }
+		public MouseButtonEventArgs aa { get; set; }
+
 		public User_Page_ViewModel()
 		{
 			Rotate_Command = new RelayCommand(
 				a =>
 				{
 					Rotate();
-				},
-				Rotate_Predicate
+				}
 			);
 
 			Get_Taxi_Command = new RelayCommand(
 				a =>
 				{
 					Get_Taxi();
-				},
-				Rotate_Predicate
+				}
+			);
+
+			From_Textbox_GotFocus_Command = new RelayCommand(
+				a =>
+				{
+					From_Textbox_GotFocus();
+				}
+			);
+
+			To_Textbox_GotFocus_Command = new RelayCommand(
+				a =>
+				{
+					To_Textbox_GotFocus();
+				}
 			);
 
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
 			timer.Interval = new TimeSpan(0, 0, 0, 2);
 			timer.Tick += Timer_Tick;
+			GetCurrentLocation();
 		}
 
 		int counter = 0;
@@ -111,6 +146,7 @@ namespace Project_Work_WPF.ViewModels
 
 
 		double Distance = 0;
+
 
 
 		private async void Rotate()
@@ -343,5 +379,74 @@ namespace Project_Work_WPF.ViewModels
 				timer.Start();
 			}
 		}
+
+		private void From_Textbox_GotFocus()
+		{
+			SelectedTxtBox = "From";
+		}
+
+		private void To_Textbox_GotFocus()
+		{
+			SelectedTxtBox = "To";
+		}
+
+	 
+
+		private RelayCommand _goTo1;
+
+		public RelayCommand Log_Out
+		{
+			get
+			{
+				return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
+				{ 
+					Mediator.Notify("GoToLogIn", "");
+				}));
+			}
+		}
+
+
+
+		public async void GetCurrentLocation()
+		{
+
+			var ipAddress = await GetIPAddress();
+
+			IpInfo ipInfo = new IpInfo();
+
+			try
+			{
+				string info = new WebClient().DownloadString("http://ipinfo.io/" + ipAddress);
+				ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
+				Pushpin pushpin = new Pushpin();
+				double lat = double.Parse(ipInfo.Loc.Split(',')[0]);
+				double lon = double.Parse(ipInfo.Loc.Split(',')[1]);
+				lat += 0.001;
+				lon += 0.001;
+				pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(lat, lon);
+				Route.Add(pushpin);
+
+				Uri geocodeRequest = new Uri("http://dev.virtualearth.net/REST/v1/Locations/" + lat.ToString() + "," + lon.ToString() +
+					"?key=" + ConfigurationManager.AppSettings["apiKey"]);
+				Response r = await GetResponse(geocodeRequest);
+
+				From = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
+			}
+			catch (Exception)
+			{
+			}
+		}
+
+		private static async Task<string> GetIPAddress()
+		{
+			var ipAddress = await _httpClient.GetAsync($"http://ipinfo.io/ip");
+			if (ipAddress.IsSuccessStatusCode)
+			{
+				var json = await ipAddress.Content.ReadAsStringAsync();
+				return json.ToString();
+			}
+			return "";
+		}
 	}
+
 }

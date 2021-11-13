@@ -19,7 +19,7 @@ namespace Project_Work_WPF.Commands
 		}
 
 		public RelayCommand(Action<T> execute, Predicate<T> canExecute = null)
-		{
+		{ 
 			if (execute == null)
 			{
 				throw new ArgumentNullException("execute");
