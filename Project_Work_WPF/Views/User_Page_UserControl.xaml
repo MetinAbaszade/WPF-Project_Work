@@ -144,9 +144,10 @@
 
                 </map:MapItemsControl>
                 
-                <!--<map:Map.InputBindings>
+                <map:Map.InputBindings>
                     <MouseBinding Gesture="LeftClick" Command="{Binding Map_DoubleClick_Command}" CommandParameter="{Binding}"></MouseBinding>
-                </map:Map.InputBindings>-->
+                </map:Map.InputBindings>
+                
             </map:Map>
         </Grid>
 

@@ -25,8 +25,6 @@ namespace Project_Work_WPF.Views
 			InitializeComponent();
 		}
 
-		private void m_Executed(object sender, MouseButtonEventArgs e)
-		{ 
-		}
+	
 	}
 }

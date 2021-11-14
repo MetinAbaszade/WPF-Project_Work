@@ -1,18 +1,15 @@
 ﻿using BingMapsRESTToolkit;
 using Microsoft.Maps.MapControl.WPF;
 using Newtonsoft.Json;
-using Prism.Commands;
 using Project_Work_WPF.Commands;
 using Project_Work_WPF.Models;
 using Project_Work_WPF.Navigation;
 using Project_Work_WPF.Services;
-using Project_Work_WPF.Views;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
@@ -28,21 +25,33 @@ namespace Project_Work_WPF.ViewModels
 	[AddINotifyPropertyChangedInterface]
 	class User_Page_ViewModel : BaseViewModel, IPageViewModel
 	{
-		string SelectedTxtBox;
+		public ApplicationIdCredentialsProvider Provider { get; set; } =
+			new ApplicationIdCredentialsProvider(ConfigurationManager.AppSettings["apiKey"]);
 
-		public   Microsoft.Maps.MapControl.WPF.Location center { get; set; } 
+		#region Variables
+
+		public Microsoft.Maps.MapControl.WPF.Location center { get; set; }
 
 		Departure currentdeparture = new Departure();
-
-		DispatcherTimer timer = new DispatcherTimer();
 
 		public double zoomlevel { get; set; }
 
 		List<Pushpin> taxies = new List<Pushpin>();
-		Pushpin MyPushPin, MyPushPin_2, Taxi;
+
+		Pushpin MyPushPin;
+		Pushpin MyPushPin_2;
+		Pushpin Taxi;
+
 		ImageBrush imgB = new ImageBrush();
-		MapPolyline routeLine, Taxi_routeLine;
-		int taxi_bound, route_bound;
+
+		MapPolyline routeLine;
+		MapPolyline Taxi_routeLine;
+
+		int taxi_bound;
+		int route_bound;
+
+		DispatcherTimer timer = new DispatcherTimer();
+
 		private static readonly HttpClient _httpClient = new HttpClient();
 
 		public ObservableCollection<UIElement> Route { get; set; } = new ObservableCollection<UIElement>();
@@ -54,6 +63,7 @@ namespace Project_Work_WPF.ViewModels
 
 		public string Price { get; set; }
 
+		#endregion
 
 		#region Relay Commands
 
@@ -65,15 +75,39 @@ namespace Project_Work_WPF.ViewModels
 
 		public RelayCommand To_Textbox_GotFocus_Command { get; set; }
 
-		public RelayCommand Log_Out_Command { get; set; }
-
 		public RelayCommand Map_DoubleClick_Command { get; set; }
+
+
+		private RelayCommand _goTo1;
+
+		public RelayCommand Log_Out
+		{
+			get
+			{
+				return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
+				{
+					Mediator.Notify("GoToLogIn", "");
+				}));
+			}
+		}
+
+
+		private RelayCommand _goTo2;
+
+		public RelayCommand History_Command
+		{
+			get
+			{
+				return _goTo2 ?? (_goTo2 = new RelayCommand(x =>
+				{
+					Mediator.Notify("GoToHistory", "");
+				}));
+			}
+		}
 
 		#endregion
 
-		public ApplicationIdCredentialsProvider Provider { get; set; } =
-			new ApplicationIdCredentialsProvider(ConfigurationManager.AppSettings["apiKey"]);
-
+		string SelectedTxtBox;
 
 		private async Task<Response> GetResponse(Uri uri)
 		{
@@ -87,11 +121,20 @@ namespace Project_Work_WPF.ViewModels
 		}
 
 
-		public object aaa { get; set; }
-		public MouseButtonEventArgs aa { get; set; }
+		public object our_object { get; set; }
+		public MouseButtonEventArgs mouseButtonEventArgs { get; set; }
 
 		public User_Page_ViewModel()
 		{
+			Map_DoubleClick_Command = new RelayCommand(
+				a =>
+				{
+					Map_DoubleClick(our_object, mouseButtonEventArgs);
+				}
+			);
+
+
+
 			Rotate_Command = new RelayCommand(
 				a =>
 				{
@@ -123,7 +166,7 @@ namespace Project_Work_WPF.ViewModels
 			zoomlevel = 14;
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
 			timer.Interval = new TimeSpan(0, 0, 0, 2);
-			timer.Tick += Timer_Tick; 
+			timer.Tick += Timer_Tick;
 			GetCurrentLocation();
 		}
 
@@ -228,7 +271,7 @@ namespace Project_Work_WPF.ViewModels
 
 				zoomlevel = ((1 / ((Route)(r.ResourceSets[0].Resources[0])).TravelDistance) * 150);
 
-				center = new Microsoft.Maps.MapControl.WPF.Location((location.Latitude + location_2.Latitude) / 2, (location.Longitude + location_2.Longitude) / 2); 
+				center = new Microsoft.Maps.MapControl.WPF.Location((location.Latitude + location_2.Latitude) / 2, (location.Longitude + location_2.Longitude) / 2);
 
 				for (int i = 0; i < route_bound; i++)
 				{
@@ -422,35 +465,16 @@ namespace Project_Work_WPF.ViewModels
 		}
 
 
-
-		private RelayCommand _goTo1;
-
-		public RelayCommand Log_Out
+		private static async Task<string> GetIPAddress()
 		{
-			get
+			var ipAddress = await _httpClient.GetAsync($"http://ipinfo.io/ip");
+			if (ipAddress.IsSuccessStatusCode)
 			{
-				return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
-				{
-					Mediator.Notify("GoToLogIn", "");
-				}));
+				var json = await ipAddress.Content.ReadAsStringAsync();
+				return json.ToString();
 			}
+			return "";
 		}
-
-		private RelayCommand _goTo2;
-
-		public RelayCommand History_Command
-		{
-			get
-			{
-				return _goTo2 ?? (_goTo2 = new RelayCommand(x =>
-				{
-					Mediator.Notify("GoToHistory", "");
-				}));
-			}
-		}
-
-
-
 		public async void GetCurrentLocation()
 		{
 
@@ -482,16 +506,11 @@ namespace Project_Work_WPF.ViewModels
 			}
 		}
 
-		private static async Task<string> GetIPAddress()
+		public void Map_DoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			var ipAddress = await _httpClient.GetAsync($"http://ipinfo.io/ip");
-			if (ipAddress.IsSuccessStatusCode)
-			{
-				var json = await ipAddress.Content.ReadAsStringAsync();
-				return json.ToString();
-			}
-			return "";
+
 		}
+
 	}
 
 }
