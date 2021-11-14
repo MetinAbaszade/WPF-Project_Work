@@ -86,8 +86,10 @@ namespace Project_Work_WPF.ViewModels
 		private void GoToUser(object obj)
 		{
 			(PageViewModels[1] as User_Page_ViewModel).GetCurrentLocation();
+			//(PageViewModels[1] as User_Page_ViewModel).zoomlevel = 5;
+			//(PageViewModels[1] as User_Page_ViewModel).center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
 			ChangeViewModel(PageViewModels[1]);
-		}
+		} 
 
 		private void GoToRegister(object obj)
 		{
@@ -98,6 +100,10 @@ namespace Project_Work_WPF.ViewModels
 			ChangeViewModel(PageViewModels[2]);
 		}
 
+		private void GoToHistory(object obj)
+		{ 
+			ChangeViewModel(PageViewModels[3]);
+		}
 
 		public MainViewModel()
 		{
@@ -105,13 +111,14 @@ namespace Project_Work_WPF.ViewModels
 			PageViewModels.Add(new Login_Page_ViewModel());
 			PageViewModels.Add(new User_Page_ViewModel());
 			PageViewModels.Add(new Register_Page_ViewModel());
-
+			PageViewModels.Add(new History_Page_ViewModel());
 			ChangeViewModel(PageViewModels[1]);
 			 
 
 			Mediator.Subscribe("GoToLogIn", GoToLogIn);
 			Mediator.Subscribe("GoToUser", GoToUser);
 			Mediator.Subscribe("GoToRegister", GoToRegister);
+			Mediator.Subscribe("GoToHistory", GoToHistory);
 		}
 	}
 }

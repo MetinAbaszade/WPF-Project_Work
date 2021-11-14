@@ -105,3 +105,5 @@ C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Prism.Wpf
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Prism.Wpf.xml
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Unity.Abstractions.pdb
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Unity.Container.pdb
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\History_Page_UserControl.g.cs
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\History_Page_UserControl.baml

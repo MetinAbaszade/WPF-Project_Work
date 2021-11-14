@@ -211,12 +211,14 @@
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomExceptions\InvalidDataException.cs" />
+    <Compile Include="Models\Departure.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Navigation\IPageViewModel.cs" />
     <Compile Include="Navigation\Mediator.cs" />
     <Compile Include="Services\IpInfo.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GeoInfoViewModel.cs" />
+    <Compile Include="ViewModels\History_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Login_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Register_Page_ViewModel.cs" />
     <Compile Include="ViewModels\User_Page_ViewModel.cs" />

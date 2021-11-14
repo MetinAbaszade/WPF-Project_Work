@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_Work_WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Project_Work_WPF.Views
 	{
 		public History_Page_UserControl()
 		{
-			InitializeComponent();
+			InitializeComponent(); 
 		}
 	}
 }

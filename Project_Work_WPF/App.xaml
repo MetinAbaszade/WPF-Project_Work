@@ -17,8 +17,12 @@
         <DataTemplate DataType="{x:Type local:Register_Page_ViewModel}">
             <local_2:Register_Page_UserControl/>
         </DataTemplate>
-         
-        
+
+        <DataTemplate DataType="{x:Type local:History_Page_ViewModel}">
+            <local_2:History_Page_UserControl/>
+        </DataTemplate>
+
+
     </Application.Resources>
 
 </Application>

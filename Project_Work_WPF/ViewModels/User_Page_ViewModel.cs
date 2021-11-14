@@ -3,6 +3,7 @@ using Microsoft.Maps.MapControl.WPF;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Project_Work_WPF.Commands;
+using Project_Work_WPF.Models;
 using Project_Work_WPF.Navigation;
 using Project_Work_WPF.Services;
 using Project_Work_WPF.Views;
@@ -29,6 +30,10 @@ namespace Project_Work_WPF.ViewModels
 	{
 		string SelectedTxtBox;
 
+		public   Microsoft.Maps.MapControl.WPF.Location center { get; set; } 
+
+		Departure currentdeparture = new Departure();
+
 		DispatcherTimer timer = new DispatcherTimer();
 
 		public double zoomlevel { get; set; }
@@ -41,23 +46,30 @@ namespace Project_Work_WPF.ViewModels
 		private static readonly HttpClient _httpClient = new HttpClient();
 
 		public ObservableCollection<UIElement> Route { get; set; } = new ObservableCollection<UIElement>();
+		public ObservableCollection<Departure> Departures { get; set; } = new ObservableCollection<Departure>();
 
 		public string From { get; set; }
 
 		public string To { get; set; } = "Qara Qarayev Baku";
 
+		public string Price { get; set; }
+
+
+		#region Relay Commands
 
 		public RelayCommand Rotate_Command { get; set; }
 
 		public RelayCommand Get_Taxi_Command { get; set; }
 
 		public RelayCommand From_Textbox_GotFocus_Command { get; set; }
+
 		public RelayCommand To_Textbox_GotFocus_Command { get; set; }
+
 		public RelayCommand Log_Out_Command { get; set; }
 
-
 		public RelayCommand Map_DoubleClick_Command { get; set; }
-		public DelegateCommand<object> SelectedCommand { get; private set; }
+
+		#endregion
 
 		public ApplicationIdCredentialsProvider Provider { get; set; } =
 			new ApplicationIdCredentialsProvider(ConfigurationManager.AppSettings["apiKey"]);
@@ -107,17 +119,22 @@ namespace Project_Work_WPF.ViewModels
 					To_Textbox_GotFocus();
 				}
 			);
-
+			center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
+			zoomlevel = 14;
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
 			timer.Interval = new TimeSpan(0, 0, 0, 2);
-			timer.Tick += Timer_Tick;
+			timer.Tick += Timer_Tick; 
 			GetCurrentLocation();
 		}
 
 		int counter = 0;
+
+		#region Timer Ticks
+
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			Taxi.Location = Taxi_routeLine.Locations[0];
+			center = Taxi.Location;
 			Taxi_routeLine.Locations.Remove(Taxi_routeLine.Locations[0]);
 			counter++;
 			if (counter > taxi_bound - 1)
@@ -127,6 +144,9 @@ namespace Project_Work_WPF.ViewModels
 				timer.Tick -= Timer_Tick;
 				timer.Tick += Timer_Tick_2;
 				timer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+				currentdeparture.Date = DateTime.Now;
+				currentdeparture.StartTime = DateTime.Now;
+				Route.Remove(MyPushPin);
 				timer.Stop();
 				timer.Start();
 			}
@@ -135,25 +155,30 @@ namespace Project_Work_WPF.ViewModels
 		private void Timer_Tick_2(object sender, EventArgs e)
 		{
 			Taxi.Location = routeLine.Locations[0];
+			center = Taxi.Location;
 			routeLine.Locations.Remove(routeLine.Locations[0]);
 			counter++;
 			if (counter > route_bound - 1)
 			{
 				Route.Remove(routeLine);
+				currentdeparture.EndTime = DateTime.Now;
+				currentdeparture.Duration = currentdeparture.EndTime.Subtract(currentdeparture.StartTime);
+				Departures.Add(currentdeparture);
+				History_Page_ViewModel.Departures = Departures;
 				timer.Stop();
 			}
 		}
 
+		#endregion
 
 		double Distance = 0;
-
-
 
 		private async void Rotate()
 		{
 
 			try
 			{
+				currentdeparture = new Departure();
 				Distance = 0;
 				taxies.Clear();
 				Route = new ObservableCollection<UIElement>();
@@ -166,6 +191,13 @@ namespace Project_Work_WPF.ViewModels
 				Response r = await GetResponse(geocodeRequest);
 
 				MyPushPin = new Pushpin();
+
+
+				float currentdeparture_price = (float)(((Route)(r.ResourceSets[0].Resources[0])).TravelDistance * 0.4);
+				currentdeparture.Cost = currentdeparture_price.ToString() + " AZN";
+				Price = currentdeparture.Cost;
+				currentdeparture.Distance = (float)((Route)(r.ResourceSets[0].Resources[0])).TravelDistance;
+
 
 				var FromLatitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][0];
 				var FromLongitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][1];
@@ -196,8 +228,7 @@ namespace Project_Work_WPF.ViewModels
 
 				zoomlevel = ((1 / ((Route)(r.ResourceSets[0].Resources[0])).TravelDistance) * 150);
 
-
-				//Route.SetView(new Microsoft.Maps.MapControl.WPF.Location((location.Latitude + location_2.Latitude) / 2, (location.Longitude + location_2.Longitude) / 2), 7.0f);
+				center = new Microsoft.Maps.MapControl.WPF.Location((location.Latitude + location_2.Latitude) / 2, (location.Longitude + location_2.Longitude) / 2); 
 
 				for (int i = 0; i < route_bound; i++)
 				{
@@ -390,7 +421,7 @@ namespace Project_Work_WPF.ViewModels
 			SelectedTxtBox = "To";
 		}
 
-	 
+
 
 		private RelayCommand _goTo1;
 
@@ -399,8 +430,21 @@ namespace Project_Work_WPF.ViewModels
 			get
 			{
 				return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
-				{ 
+				{
 					Mediator.Notify("GoToLogIn", "");
+				}));
+			}
+		}
+
+		private RelayCommand _goTo2;
+
+		public RelayCommand History_Command
+		{
+			get
+			{
+				return _goTo2 ?? (_goTo2 = new RelayCommand(x =>
+				{
+					Mediator.Notify("GoToHistory", "");
 				}));
 			}
 		}
@@ -424,6 +468,7 @@ namespace Project_Work_WPF.ViewModels
 				lat += 0.001;
 				lon += 0.001;
 				pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(lat, lon);
+				center = pushpin.Location;
 				Route.Add(pushpin);
 
 				Uri geocodeRequest = new Uri("http://dev.virtualearth.net/REST/v1/Locations/" + lat.ToString() + "," + lon.ToString() +
