@@ -40,3 +40,11 @@ C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Use
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\App.baml
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\History_Page_UserControl.g.cs
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\History_Page_UserControl.baml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Bogus.dll
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Bogus.xml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\EvaluationWindow.g.cs
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\EvaluationWindow.baml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Start_Page_UserControl.g.cs
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Start_Page_UserControl.baml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Admin_Page_UserControl.g.cs
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Admin_Page_UserControl.baml

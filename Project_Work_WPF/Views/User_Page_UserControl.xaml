@@ -137,15 +137,14 @@
         <!--CredentialsProvider="{Binding Provider}"-->
 
         <Grid Grid.Column="1">
-            <map:Map Name="m"  CredentialsProvider="{Binding Provider}"
-                     ZoomLevel="{Binding zoomlevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Center="{Binding center, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-
+            <map:Map Name="m"  CredentialsProvider="{Binding Provider}" 
+                     ZoomLevel="{Binding zoomlevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Center="{Binding center, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"> 
                 <map:MapItemsControl ItemsSource="{Binding Route}">
 
                 </map:MapItemsControl>
                 
                 <map:Map.InputBindings>
-                    <MouseBinding Gesture="LeftClick" Command="{Binding Map_DoubleClick_Command}" CommandParameter="{Binding}"></MouseBinding>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Map_DoubleClick_Command}" CommandParameter="{Binding .}"></MouseBinding>
                 </map:Map.InputBindings>
                 
             </map:Map>

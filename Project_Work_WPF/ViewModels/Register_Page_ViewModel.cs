@@ -12,27 +12,43 @@ namespace Project_Work_WPF.ViewModels
 	{
 		public static string Username { get; set; } = string.Empty;
 		public static string Password { get; set; } = string.Empty;
-		public  string Passwordd { get; set; } = string.Empty;
+		public string Passwordd { get; set; } = string.Empty;
 		public static string Repeat_Password { get; set; } = string.Empty;
 		public RelayCommand Register_Command { get; set; }
-		 
+
 
 
 
 
 		static void Register(object obj)
 		{
-		
-			try
+			if (MainViewModel.Logged_As == "User")
 			{
-				MainViewModel.Add_Person(Username, Password);
-				MessageBox.Show("Succesfully Completed");
-				GoTo_SignIn.Execute(obj);
+				try
+				{
+					MainViewModel.Add_User(Username, Password);
+					MessageBox.Show("Succesfully Completed");
+					GoTo_SignIn.Execute(obj);
 
+				}
+				catch (Exception a)
+				{
+					MessageBox.Show(a.Message);
+				}
 			}
-			catch (Exception a)
+
+			else
 			{
-				MessageBox.Show(a.Message);
+				try
+				{
+					MainViewModel.Add_Admin(Username, Password);
+					MessageBox.Show("Succesfully Completed");
+					GoTo_SignIn.Execute(obj); 
+				}
+				catch (Exception a)
+				{
+					MessageBox.Show(a.Message);
+				}
 			}
 		}
 
@@ -81,7 +97,7 @@ namespace Project_Work_WPF.ViewModels
 					Username = string.Empty;
 					Password = string.Empty;
 					Repeat_Password = string.Empty;
-					 
+
 					Mediator.Notify("GoToLogIn", "");
 				}));
 			}

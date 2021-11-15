@@ -41,6 +41,9 @@
     <Reference Include="BingMapsRESTToolkit, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BingMapsRESTToolkit.1.1.4\lib\net45\BingMapsRESTToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Bogus, Version=33.1.1.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bogus.33.1.1\lib\net40\Bogus.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=2.0.3.2, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.2.0.3\lib\net452\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -94,16 +97,31 @@
     </Compile>
     <Compile Include="CustomExceptions\InvalidDataException.cs" />
     <Compile Include="Models\Departure.cs" />
+    <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Navigation\IPageViewModel.cs" />
     <Compile Include="Navigation\Mediator.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\IpInfo.cs" />
+    <Compile Include="ViewModels\Admin_Page_ViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Evaluation_ViewModel.cs" />
     <Compile Include="ViewModels\GeoInfoViewModel.cs" />
     <Compile Include="ViewModels\History_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Login_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Register_Page_ViewModel.cs" />
+    <Compile Include="ViewModels\Start_ViewModel.cs" />
     <Compile Include="ViewModels\User_Page_ViewModel.cs" />
+    <Compile Include="Views\Admin_Page_UserControl.xaml.cs">
+      <DependentUpon>Admin_Page_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EvaluationWindow.xaml.cs">
+      <DependentUpon>EvaluationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\History_Page_UserControl.xaml.cs">
       <DependentUpon>History_Page_UserControl.xaml</DependentUpon>
     </Compile>
@@ -121,10 +139,21 @@
     <Compile Include="Views\Register_Page_UserControl.xaml.cs">
       <DependentUpon>Register_Page_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Start_Page_UserControl.xaml.cs">
+      <DependentUpon>Start_Page_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\User_Page_UserControl.xaml.cs">
       <DependentUpon>User_Page_UserControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Components\BindablePasswordBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin_Page_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EvaluationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,6 +173,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Start_Page_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\User_Page_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -153,11 +186,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -165,6 +193,7 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -196,6 +225,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\EyeTaxi Logo .png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Yellow StarIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Delete Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Black StarIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

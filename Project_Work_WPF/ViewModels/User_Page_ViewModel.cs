@@ -5,6 +5,7 @@ using Project_Work_WPF.Commands;
 using Project_Work_WPF.Models;
 using Project_Work_WPF.Navigation;
 using Project_Work_WPF.Services;
+using Project_Work_WPF.Views;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ using System.Configuration;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,6 +28,8 @@ namespace Project_Work_WPF.ViewModels
 	[AddINotifyPropertyChangedInterface]
 	class User_Page_ViewModel : BaseViewModel, IPageViewModel
 	{
+		static bool departure_finished = true;
+		public static bool rotate_cliked = false;
 		public ApplicationIdCredentialsProvider Provider { get; set; } =
 			new ApplicationIdCredentialsProvider(ConfigurationManager.AppSettings["apiKey"]);
 
@@ -75,37 +80,16 @@ namespace Project_Work_WPF.ViewModels
 
 		public RelayCommand To_Textbox_GotFocus_Command { get; set; }
 
-		public RelayCommand Map_DoubleClick_Command { get; set; }
+		public RelayCommand<object> Map_DoubleClick_Command { get; set; }
 
+		public RelayCommand Log_Out { get; set; }
 
-		private RelayCommand _goTo1;
-
-		public RelayCommand Log_Out
-		{
-			get
-			{
-				return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
-				{
-					Mediator.Notify("GoToLogIn", "");
-				}));
-			}
-		}
-
-
-		private RelayCommand _goTo2;
-
-		public RelayCommand History_Command
-		{
-			get
-			{
-				return _goTo2 ?? (_goTo2 = new RelayCommand(x =>
-				{
-					Mediator.Notify("GoToHistory", "");
-				}));
-			}
-		}
+		public RelayCommand History_Command { get; set; }
 
 		#endregion
+
+		Predicate<object> departure_finished_object = new Predicate<object>(x => departure_finished == true);
+		Predicate<object> Get_Taxi_Predicate = new Predicate<object>(x => departure_finished == true && rotate_cliked == true);
 
 		string SelectedTxtBox;
 
@@ -118,56 +102,6 @@ namespace Project_Work_WPF.ViewModels
 				DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Response));
 				return ser.ReadObject(stream) as Response;
 			}
-		}
-
-
-		public object our_object { get; set; }
-		public MouseButtonEventArgs mouseButtonEventArgs { get; set; }
-
-		public User_Page_ViewModel()
-		{
-			Map_DoubleClick_Command = new RelayCommand(
-				a =>
-				{
-					Map_DoubleClick(our_object, mouseButtonEventArgs);
-				}
-			);
-
-
-
-			Rotate_Command = new RelayCommand(
-				a =>
-				{
-					Rotate();
-				}
-			);
-
-			Get_Taxi_Command = new RelayCommand(
-				a =>
-				{
-					Get_Taxi();
-				}
-			);
-
-			From_Textbox_GotFocus_Command = new RelayCommand(
-				a =>
-				{
-					From_Textbox_GotFocus();
-				}
-			);
-
-			To_Textbox_GotFocus_Command = new RelayCommand(
-				a =>
-				{
-					To_Textbox_GotFocus();
-				}
-			);
-			center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
-			zoomlevel = 14;
-			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
-			timer.Interval = new TimeSpan(0, 0, 0, 2);
-			timer.Tick += Timer_Tick;
-			GetCurrentLocation();
 		}
 
 		int counter = 0;
@@ -190,6 +124,7 @@ namespace Project_Work_WPF.ViewModels
 				currentdeparture.Date = DateTime.Now;
 				currentdeparture.StartTime = DateTime.Now;
 				Route.Remove(MyPushPin);
+				Route.Remove(Taxi_routeLine);
 				timer.Stop();
 				timer.Start();
 			}
@@ -208,6 +143,19 @@ namespace Project_Work_WPF.ViewModels
 				currentdeparture.Duration = currentdeparture.EndTime.Subtract(currentdeparture.StartTime);
 				Departures.Add(currentdeparture);
 				History_Page_ViewModel.Departures = Departures;
+				From = string.Empty;
+				To = string.Empty;
+				Price = string.Empty;
+				departure_finished = true;
+				rotate_cliked = false;
+				Thread.Sleep(2000);
+
+				EvaluationWindow evaluationWindow = new EvaluationWindow();
+				evaluationWindow.Height = 280;
+				evaluationWindow.Width = 400;
+				evaluationWindow.ShowDialog();
+				timer.Tick -= Timer_Tick_2;
+				timer.Tick += Timer_Tick;
 				timer.Stop();
 			}
 		}
@@ -215,12 +163,13 @@ namespace Project_Work_WPF.ViewModels
 		#endregion
 
 		double Distance = 0;
-
 		private async void Rotate()
 		{
 
 			try
 			{
+
+				rotate_cliked = true;
 				currentdeparture = new Departure();
 				Distance = 0;
 				taxies.Clear();
@@ -380,6 +329,8 @@ namespace Project_Work_WPF.ViewModels
 		{
 			if (taxies.Count > 0)
 			{
+				timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
+				departure_finished = false;
 				string Latitude, Longitude, Latitude_2, Longitude_2, url;
 				Uri geocodeRequest;
 				Response r;
@@ -462,8 +413,63 @@ namespace Project_Work_WPF.ViewModels
 		private void To_Textbox_GotFocus()
 		{
 			SelectedTxtBox = "To";
-		}
+		} 
 
+
+		public User_Page_ViewModel()
+		{
+
+			Map_DoubleClick_Command = new RelayCommand<object>(Map_DoubleClick);
+
+			History_Command = new RelayCommand(
+				  x =>
+				  {
+					  Mediator.Notify("GoToHistory", "");
+				  }, departure_finished_object
+			);
+
+			Log_Out = new RelayCommand(
+				 x =>
+				 {
+					 Mediator.Notify("GoToLogIn", "");
+				 }, departure_finished_object
+			);
+
+			Rotate_Command = new RelayCommand(
+				a =>
+				{
+					Rotate();
+				}, departure_finished_object
+			);
+
+			Get_Taxi_Command = new RelayCommand(
+				a =>
+				{
+					Get_Taxi();
+				}, Get_Taxi_Predicate
+			);
+
+			From_Textbox_GotFocus_Command = new RelayCommand(
+				a =>
+				{
+					From_Textbox_GotFocus();
+				}, departure_finished_object
+			);
+
+			To_Textbox_GotFocus_Command = new RelayCommand(
+				a =>
+				{
+					To_Textbox_GotFocus();
+				}, departure_finished_object
+			);
+
+			center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
+			zoomlevel = 14;
+			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
+			timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
+			timer.Tick += Timer_Tick;
+			GetCurrentLocation();
+		}
 
 		private static async Task<string> GetIPAddress()
 		{
@@ -477,39 +483,53 @@ namespace Project_Work_WPF.ViewModels
 		}
 		public async void GetCurrentLocation()
 		{
-
-			var ipAddress = await GetIPAddress();
-
-			IpInfo ipInfo = new IpInfo();
-
-			try
+			if (Route.Count == 0)
 			{
-				string info = new WebClient().DownloadString("http://ipinfo.io/" + ipAddress);
-				ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
-				Pushpin pushpin = new Pushpin();
-				double lat = double.Parse(ipInfo.Loc.Split(',')[0]);
-				double lon = double.Parse(ipInfo.Loc.Split(',')[1]);
-				lat += 0.001;
-				lon += 0.001;
-				pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(lat, lon);
-				center = pushpin.Location;
-				Route.Add(pushpin);
+				var ipAddress = await GetIPAddress();
 
-				Uri geocodeRequest = new Uri("http://dev.virtualearth.net/REST/v1/Locations/" + lat.ToString() + "," + lon.ToString() +
-					"?key=" + ConfigurationManager.AppSettings["apiKey"]);
-				Response r = await GetResponse(geocodeRequest);
+				IpInfo ipInfo = new IpInfo();
 
-				From = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
-			}
-			catch (Exception)
-			{
+				try
+				{
+					string info = new WebClient().DownloadString("http://ipinfo.io/" + ipAddress);
+					ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
+					Pushpin pushpin = new Pushpin();
+					double lat = double.Parse(ipInfo.Loc.Split(',')[0]);
+					double lon = double.Parse(ipInfo.Loc.Split(',')[1]);
+					lat += 0.001;
+					lon += 0.001;
+					pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(lat, lon);
+					center = pushpin.Location;
+					Route.Add(pushpin);
+
+					Uri geocodeRequest = new Uri("http://dev.virtualearth.net/REST/v1/Locations/" + lat.ToString() + "," + lon.ToString() +
+						"?key=" + ConfigurationManager.AppSettings["apiKey"]);
+					Response r = await GetResponse(geocodeRequest);
+
+					From = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
+				}
+				catch (Exception)
+				{
+				}
 			}
 		}
 
-		public void Map_DoubleClick(object sender, MouseButtonEventArgs e)
+		public void Map_DoubleClick(object sender)
 		{
-
+			var mousePosition = Mouse.GetPosition(Application.Current.MainWindow);
+			Microsoft.Maps.MapControl.WPF.Location pinLocation = (sender as Map).ViewportPointToLocation(mousePosition);
+			Pushpin a = new Pushpin();
+			a.Location = pinLocation;
+			Route.Add(a);
 		}
+
+		//private void OnItemSelected(object[] selectedItems)
+		//{
+		//	if (selectedItems != null && selectedItems.Count() > 0)
+		//	{
+		//		SelectedItemText = selectedItems.FirstOrDefault().ToString();
+		//	}
+		//}
 
 	}
 

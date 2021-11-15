@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\App.xaml
-6-1669888681
+91804367041
 
-27767048168
-131-1185383283
-Components\BindablePasswordBox.xaml;Views\History_Page_UserControl.xaml;Views\Login_Page_UserControl.xaml;Views\MainWindow.xaml;Views\Register_Page_UserControl.xaml;Views\User_Page_UserControl.xaml;
+34129962105
+132-1945209104
+Components\BindablePasswordBox.xaml;Views\Admin_Page_UserControl.xaml;Views\EvaluationWindow.xaml;Views\History_Page_UserControl.xaml;Views\Login_Page_UserControl.xaml;Views\MainWindow.xaml;Views\Register_Page_UserControl.xaml;Views\Start_Page_UserControl.xaml;Views\User_Page_UserControl.xaml;
 
 False
 

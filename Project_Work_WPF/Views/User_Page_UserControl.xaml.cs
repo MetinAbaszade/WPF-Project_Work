@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,11 @@ namespace Project_Work_WPF.Views
 	/// </summary>
 	public partial class User_Page_UserControl : UserControl
 	{
+		public static Microsoft.Maps.MapControl.WPF.Location pinLocation;
+
 		public User_Page_UserControl()
 		{
 			InitializeComponent();
 		}
-
-	
 	}
 }

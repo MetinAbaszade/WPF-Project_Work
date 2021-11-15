@@ -64,9 +64,6 @@ namespace Project_Work_WPF.Commands
 			_execute = execute;
 			_canExecute = canExecute;
 		}
-		public RelayCommand( )
-		{ 
-		}
 
 		public bool CanExecute(object parameter)
 		{

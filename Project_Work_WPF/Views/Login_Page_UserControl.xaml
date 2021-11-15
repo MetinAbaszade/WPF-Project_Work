@@ -36,6 +36,11 @@
                 <ColumnDefinition ></ColumnDefinition>
                 <ColumnDefinition ></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            
+            <Button Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
+                Command="{Binding GoTo_Start}">
+                <Image Source="/Resources/Back Icon.png"></Image>
+            </Button>
 
             <Grid Grid.Column="1">
 

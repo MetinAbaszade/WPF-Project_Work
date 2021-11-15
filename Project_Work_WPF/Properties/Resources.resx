@@ -121,6 +121,12 @@
   <data name="Back_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Back Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Black_StarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Black StarIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Delete_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="EyeTaxi_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EyeTaxi Logo .png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -129,5 +135,8 @@
   </data>
   <data name="Taxi_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Taxi Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Yellow_StarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Yellow StarIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

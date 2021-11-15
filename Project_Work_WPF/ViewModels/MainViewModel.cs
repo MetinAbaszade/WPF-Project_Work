@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Bogus;
 using Project_Work_WPF.CustomExceptions;
 using Project_Work_WPF.Models;
 using Project_Work_WPF.Navigation;
@@ -11,24 +13,55 @@ namespace Project_Work_WPF.ViewModels
 	[AddINotifyPropertyChangedInterface]
 	public class MainViewModel : BaseViewModel
 	{
-		static List<Person> People = new List<Person>();
+		public static string Logged_As;
 
-		public static void Add_Person(string username, string password)
+		static List<Models.Person> Users = new List<Models.Person>();
+		static List<Models.Person> Admins = new List<Models.Person>();
+		static List<Driver> Drivers = new List<Driver>();
+
+		public static void Add_User(string username, string password)
 		{
-			if (People.Exists(x => x.Username == username))
+			if (Users.Exists(x => x.Username == username))
 			{
 				throw new InvalidDataException();
 			}
-			else {
-				Person person = new Person(username, password);
-				People.Add(person);
+			else
+			{
+				Models.Person User = new Models.Person(username, password);
+				Users.Add(User);
 			}
 		}
 
-		public static bool Check_Person(string username, string password)
+		public static bool Check_User(string username, string password)
 		{
 
-			if (People.Exists(x => x.Username == username && x.Password == password))
+			if (Users.Exists(x => x.Username == username && x.Password == password))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public static void Add_Admin(string username, string password)
+		{
+			if (Admins.Exists(x => x.Username == username))
+			{
+				throw new InvalidDataException();
+			}
+			else
+			{
+				Models.Person Admin = new Models.Person(username, password);
+				Admins.Add(Admin);
+			}
+		}
+
+		public static bool Check_Admin(string username, string password)
+		{
+
+			if (Admins.Exists(x => x.Username == username && x.Password == password))
 			{
 				return true;
 			}
@@ -80,45 +113,85 @@ namespace Project_Work_WPF.ViewModels
 
 		private void GoToLogIn(object obj)
 		{
-			ChangeViewModel(PageViewModels[0]);
+			(PageViewModels[1] as Login_Page_ViewModel).Password = string.Empty;
+			(PageViewModels[1] as Login_Page_ViewModel).Username = string.Empty;
+			(PageViewModels[1] as Login_Page_ViewModel).password_box_visibility = System.Windows.Visibility.Visible;
+			(PageViewModels[1] as Login_Page_ViewModel).password_box_visibility_2 = System.Windows.Visibility.Collapsed;
+			ChangeViewModel(PageViewModels[1]);
 		}
 
 		private void GoToUser(object obj)
 		{
-			(PageViewModels[1] as User_Page_ViewModel).GetCurrentLocation();
-			//(PageViewModels[1] as User_Page_ViewModel).zoomlevel = 5;
-			//(PageViewModels[1] as User_Page_ViewModel).center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
-			ChangeViewModel(PageViewModels[1]);
-		} 
-
-		private void GoToRegister(object obj)
-		{
-			(PageViewModels[2] as Register_Page_ViewModel).Passwordd = string.Empty;
-			(PageViewModels[2] as Register_Page_ViewModel).password_box_visibility = System.Windows.Visibility.Visible;
-			(PageViewModels[2] as Register_Page_ViewModel).password_box_visibility_2 = System.Windows.Visibility.Collapsed;
-			(PageViewModels[2] as Register_Page_ViewModel).Hidden = false;
+			(PageViewModels[2] as User_Page_ViewModel).Route.Clear();
+			(PageViewModels[2] as User_Page_ViewModel).From = string.Empty;
+			(PageViewModels[2] as User_Page_ViewModel).To = string.Empty;
+			(PageViewModels[2] as User_Page_ViewModel).Price = string.Empty;
+			User_Page_ViewModel.rotate_cliked = false;
+			(PageViewModels[2] as User_Page_ViewModel).GetCurrentLocation();
 			ChangeViewModel(PageViewModels[2]);
 		}
 
-		private void GoToHistory(object obj)
-		{ 
+		private void GoToRegister(object obj)
+		{
+			(PageViewModels[3] as Register_Page_ViewModel).Passwordd = string.Empty;
+			(PageViewModels[3] as Register_Page_ViewModel).password_box_visibility = System.Windows.Visibility.Visible;
+			(PageViewModels[3] as Register_Page_ViewModel).password_box_visibility_2 = System.Windows.Visibility.Collapsed;
+			(PageViewModels[3] as Register_Page_ViewModel).Hidden = false;
 			ChangeViewModel(PageViewModels[3]);
 		}
+
+		private void GoToHistory(object obj)
+		{
+			ChangeViewModel(PageViewModels[4]);
+		}
+
+		private void GoToStart(object obj)
+		{
+			ChangeViewModel(PageViewModels[0]);
+		}
+
+		private void GoToAdmin(object obj)
+		{
+			ChangeViewModel(PageViewModels[5]);
+		}
+
+
+		private static void GetSampleTableData()
+		{
+			var customerId = 1;
+			Random random = new Random();
+
+			var userFaker = new Faker<Driver>()
+				.CustomInstantiator(f => new Driver(customerId++.ToString()))
+				.RuleFor(o => o.Age, f => random.Next(18, 50))
+				.RuleFor(o => o.Name, f => f.Person.FirstName)
+				.RuleFor(o => o.Surname, f => f.Person.LastName)
+				.RuleFor(o => o.Email, (f, u) => f.Internet.Email(u.Name, u.Surname));
+
+			Drivers = userFaker.Generate(10);
+		}
+
+
 
 		public MainViewModel()
 		{
 			// Add available pages and set page
+			PageViewModels.Add(new Start_ViewModel());
 			PageViewModels.Add(new Login_Page_ViewModel());
 			PageViewModels.Add(new User_Page_ViewModel());
 			PageViewModels.Add(new Register_Page_ViewModel());
 			PageViewModels.Add(new History_Page_ViewModel());
-			ChangeViewModel(PageViewModels[1]);
-			 
+			PageViewModels.Add(new Admin_Page_ViewModel());
+			ChangeViewModel(PageViewModels[0]);
 
+
+			Mediator.Subscribe("GoToStart", GoToStart);
 			Mediator.Subscribe("GoToLogIn", GoToLogIn);
 			Mediator.Subscribe("GoToUser", GoToUser);
 			Mediator.Subscribe("GoToRegister", GoToRegister);
 			Mediator.Subscribe("GoToHistory", GoToHistory);
+			Mediator.Subscribe("GoToAdmin", GoToAdmin);
+			GetSampleTableData();
 		}
 	}
 }

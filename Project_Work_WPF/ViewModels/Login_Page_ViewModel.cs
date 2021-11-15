@@ -46,30 +46,48 @@ namespace Project_Work_WPF.ViewModels
 		}
 
 		private RelayCommand _goTo1;
+		private RelayCommand _goTo44;
 
 		public RelayCommand GoTo_SignIn
 		{
 			get
 			{
-				if (MainViewModel.Check_Person(Username, Password))
+				if (MainViewModel.Logged_As == "User")
 				{
-
-					return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
+					if (MainViewModel.Check_User(Username, Password))
 					{
-						Username = string.Empty;
-						Password = string.Empty;
-						Mediator.Notify("GoToUser", "");
-					}));
+
+						return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
+						{
+							Username = string.Empty;
+							Password = string.Empty;
+							Mediator.Notify("GoToUser", "");
+						}));
+					}
+
+					return new RelayCommand(x =>
+					{
+						MessageBox.Show("Data is False");
+					});
 				}
 
-				return new RelayCommand(x =>
-				{
-					MessageBox.Show("Data is False");
+				else {
+					if (MainViewModel.Check_Admin(Username, Password))
+					{
+
+						return _goTo44 ?? (_goTo44 = new RelayCommand(x =>
+						{
+							Username = string.Empty;
+							Password = string.Empty;
+							Mediator.Notify("GoToAdmin", "");
+						}));
+					}
+
+					return new RelayCommand(x =>
+					{
+						MessageBox.Show("Data is False");
+					});
 				}
-				) ?? (new RelayCommand(x =>
-				{
-					MessageBox.Show("Data is False");
-				}));
 			}
 		}
 
@@ -87,6 +105,19 @@ namespace Project_Work_WPF.ViewModels
 					}));
 			}
 
+		}
+
+		private RelayCommand _goTo3;
+
+		public RelayCommand GoTo_Start
+		{
+			get
+			{
+				return _goTo3 ?? (_goTo3 = new RelayCommand(x =>
+				{
+					Mediator.Notify("GoToStart", "");
+				}));
+			}
 		}
 
 		public RelayCommand Hide { get; set; }

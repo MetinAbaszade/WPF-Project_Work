@@ -73,6 +73,26 @@ namespace Project_Work_WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Black_StarIcon {
+            get {
+                object obj = ResourceManager.GetObject("Black_StarIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Delete_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Delete_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EyeTaxi_Logo {
             get {
                 object obj = ResourceManager.GetObject("EyeTaxi_Logo", resourceCulture);
@@ -96,6 +116,16 @@ namespace Project_Work_WPF.Properties {
         internal static System.Drawing.Bitmap Taxi_Icon {
             get {
                 object obj = ResourceManager.GetObject("Taxi_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Yellow_StarIcon {
+            get {
+                object obj = ResourceManager.GetObject("Yellow_StarIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
