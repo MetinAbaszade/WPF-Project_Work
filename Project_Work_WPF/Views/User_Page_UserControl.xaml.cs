@@ -27,5 +27,10 @@ namespace Project_Work_WPF.Views
 		{
 			InitializeComponent();
 		}
+
+		private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+
+		}
 	}
 }

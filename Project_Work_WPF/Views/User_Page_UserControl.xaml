@@ -73,11 +73,11 @@
 
                         <TextBox Name ="To_Textbox" Width="198" Height="25" BorderThickness="0" 
                                  Background="Transparent"
-                                 FontSize="18" HorizontalAlignment="Center" Text="{Binding To}"
+                                 FontSize="18" HorizontalAlignment="Center" Text="{Binding To, UpdateSourceTrigger=PropertyChanged}"
                                  VerticalAlignment="Center"  Margin="2, 4, 2, 4"
                                  FontFamily="SimSun">
                             <TextBox.InputBindings>
-                                <MouseBinding  Gesture="LeftDoubleClick" Command="{Binding To_Textbox_GotFocus_Command}" ></MouseBinding>
+                                <MouseBinding  Gesture="LeftDoubleClick" Command="{Binding To_Textbox_GotFocus_Commandd}" ></MouseBinding>
                             </TextBox.InputBindings>
                         </TextBox>
 
@@ -138,15 +138,17 @@
 
         <Grid Grid.Column="1">
             <map:Map Name="m"  CredentialsProvider="{Binding Provider}" 
-                     ZoomLevel="{Binding zoomlevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Center="{Binding center, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"> 
+                     ZoomLevel="{Binding zoomlevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Center="{Binding center, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseDoubleClick="Map_MouseDoubleClick"> 
                 <map:MapItemsControl ItemsSource="{Binding Route}">
 
-                </map:MapItemsControl>
-                
-                <map:Map.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Map_DoubleClick_Command}" CommandParameter="{Binding .}"></MouseBinding>
-                </map:Map.InputBindings>
-                
+                </map:MapItemsControl> 
+
+                <map:Pushpin Name="From_Pushpin" Visibility="{Binding From_Pushpin_Visibility}" 
+                             Location="{Binding From_Pushpin_Location}"></map:Pushpin>
+
+                <map:Pushpin Name="To_Pushpin" Visibility="{Binding To_Pushpin_Visibility}"  
+                             Location="{Binding To_Pushpin_Location}"></map:Pushpin>
+
             </map:Map>
         </Grid>
 
