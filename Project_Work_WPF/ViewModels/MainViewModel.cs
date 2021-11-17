@@ -165,7 +165,7 @@ namespace Project_Work_WPF.ViewModels
 			PageViewModels.Add(new Register_Page_ViewModel());
 			PageViewModels.Add(new History_Page_ViewModel());
 			PageViewModels.Add(new Admin_Page_ViewModel());
-			ChangeViewModel(PageViewModels[2]);
+			ChangeViewModel(PageViewModels[5]);
 
 
 			Mediator.Subscribe("GoToStart", GoToStart);

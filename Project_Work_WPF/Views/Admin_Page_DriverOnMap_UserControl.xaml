@@ -13,7 +13,11 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="10*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <map:Map Name="Map" Grid.Column="1" MouseDoubleClick="Map_MouseDoubleClick">
+        <!--CredentialsProvider="{Binding Provider}"-->
+        <map:Map Name="Map" Grid.Column="1" MouseDoubleClick="Map_MouseDoubleClick" CredentialsProvider="{Binding Provider}"
+                 ZoomLevel="{Binding zoomlevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                 Center="{Binding center, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+               >
             <map:MapItemsControl ItemsSource="{Binding Route}">
 
             </map:MapItemsControl>

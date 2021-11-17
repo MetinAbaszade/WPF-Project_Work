@@ -88,9 +88,10 @@
                     </TransformGroup>
                 </ListViewItem.RenderTransform>
 
+
                 <Button Background="Transparent" Command="{Binding GoToAdmin_User}" Width="170"  Margin="10 0">
                     <StackPanel  Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="DriversLicense"  VerticalAlignment="Center" Margin="5"/>
+                        <materialDesign:PackIcon Kind="DriversLicense" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
                         <TextBlock Text="Drivers" Margin="10" VerticalAlignment="Center" FontSize="15"/>
                     </StackPanel>
                 </Button>
@@ -134,15 +135,15 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="9*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <Button x:Name="ButtonCloseMenu"   Width="40" Height="40" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5" Click="ButtonCloseMenu_Click" Visibility="Collapsed">
                 <materialDesign:PackIcon Kind="Menu" Foreground="#FF3580BF"/>
             </Button> 
 
-            <Button x:Name="ButtonOpenMenu"   Width="40" Height="40" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5" Click="ButtonOpenMenu_Click">
-                <materialDesign:PackIcon Kind="Menu" Foreground="#FF3580BF"/>
+            <Button x:Name="ButtonOpenMenu"   Width="40" Height="35" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3" Click="ButtonOpenMenu_Click">
+                <materialDesign:PackIcon Kind="Menu" Foreground="#FF3580BF"  Height="40" Width="30"/>
             </Button>
 
             <ContentControl Grid.Row="1" Content="{Binding CurrentPageViewModel}" />

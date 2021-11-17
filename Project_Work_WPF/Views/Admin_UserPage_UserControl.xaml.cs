@@ -23,6 +23,7 @@ namespace Project_Work_WPF.Views
 		public Admin_UserPage_UserControl()
 		{
 			InitializeComponent();
+			 
 		}
 	}
 }

@@ -9,9 +9,19 @@ namespace Project_Work_WPF.Models
 	class Driver
 	{
 		public Driver(string DriverID)
-		{ 
+		{
 			this.id = DriverID;
 		}
+
+		public Driver(string name, string surname, string email, int age, string ID)
+		{
+			Name = name;
+			Surname = surname;
+			Email = email;
+			Age = age;
+			id = ID;
+		}
+
 		public string id { get; set; }
 		public string Name { get; set; }
 		public string Surname { get; set; }

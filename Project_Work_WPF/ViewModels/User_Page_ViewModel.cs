@@ -123,7 +123,7 @@ namespace Project_Work_WPF.ViewModels
 				timer.Interval = new TimeSpan(0, 0, 0, 0, 200);
 				currentdeparture.Date = DateTime.Now;
 				currentdeparture.StartTime = DateTime.Now;
-				From_Pushpin_Visibility = Visibility.Collapsed;
+				From_Pushpin_Visibility = Visibility.Hidden;
 				Route.Remove(Taxi_routeLine);
 				timer.Stop();
 				timer.Start();
@@ -147,7 +147,7 @@ namespace Project_Work_WPF.ViewModels
 				To = string.Empty;
 				Price = string.Empty;
 				departure_finished = true;
-				rotate_cliked = false; 
+				rotate_cliked = false;
 
 				To_Pushpin_Visibility = Visibility.Collapsed;
 				EvaluationWindow evaluationWindow = new EvaluationWindow();
@@ -163,11 +163,14 @@ namespace Project_Work_WPF.ViewModels
 		#endregion
 
 		double Distance = 0;
-			double FromLatitude = 0;
-			double FromLongitude = 0;
+		double FromLatitude = 0;
+		double FromLongitude = 0;
+
 		private async void Rotate()
 		{
+			Distance = 0;
 			rotate_cliked = false;
+
 			if (GetWithDoubleClick)
 			{
 				Route = new ObservableCollection<UIElement>();
@@ -180,7 +183,7 @@ namespace Project_Work_WPF.ViewModels
 
 				var geocodeRequest = new Uri(URL);
 				var r = await GetResponse(geocodeRequest);
-				 route_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
+				route_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.Length;
 
 				FromLatitude = User_Page_UserControl.From_Location.Latitude;
 				FromLongitude = User_Page_UserControl.From_Location.Longitude;
@@ -221,6 +224,9 @@ namespace Project_Work_WPF.ViewModels
 					var geocodeRequest = new Uri(URL);
 					var r = await GetResponse(geocodeRequest);
 
+					FromLatitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][0];
+					FromLongitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][1];
+
 
 					float currentdeparture_price = (float)(((Route)(r.ResourceSets[0].Resources[0])).TravelDistance * 0.4);
 					currentdeparture.Cost = currentdeparture_price.ToString() + " AZN";
@@ -228,8 +234,6 @@ namespace Project_Work_WPF.ViewModels
 					currentdeparture.Distance = (float)((Route)(r.ResourceSets[0].Resources[0])).TravelDistance;
 
 
-					FromLatitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][0];
-					FromLongitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][1];
 
 					var location = new Microsoft.Maps.MapControl.WPF.Location(FromLatitude, FromLongitude);
 
@@ -241,7 +245,7 @@ namespace Project_Work_WPF.ViewModels
 					routeLine.Stroke = new SolidColorBrush(Colors.Blue);
 					routeLine.Opacity = 150;
 
-					route_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
+					route_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.Length;
 
 					var FromLatitude_2 =
 						((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[route_bound - 1][0];
@@ -309,7 +313,7 @@ namespace Project_Work_WPF.ViewModels
 
 					Latitude = pushpin.Location.Latitude.ToString().Replace(',', '.');
 					Longitude = pushpin.Location.Longitude.ToString().Replace(',', '.');
-					Latitude_2 = FromLatitude.ToString().Replace(',', '.'); 
+					Latitude_2 = FromLatitude.ToString().Replace(',', '.');
 					Longitude_2 = FromLongitude.ToString().Replace(',', '.');
 
 					url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
@@ -323,7 +327,7 @@ namespace Project_Work_WPF.ViewModels
 					r_2 = await GetResponse(geocodeRequest_2);
 
 
-					bound_2 = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
+					bound_2 = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.Length;
 
 					index = random.Next(0, bound_2 - 1);
 
@@ -362,6 +366,7 @@ namespace Project_Work_WPF.ViewModels
 						Distance = ((Route)(r_2.ResourceSets[0].Resources[0])).TravelDistance;
 					}
 				}
+
 				rotate_cliked = true;
 			}
 
@@ -370,8 +375,7 @@ namespace Project_Work_WPF.ViewModels
 				MessageBox.Show("Error Occured !!! Please Try Again");
 			}
 		}
-
-
+		 
 		private async void Get_Taxi()
 		{
 			if (taxies.Count > 0)
@@ -486,6 +490,7 @@ namespace Project_Work_WPF.ViewModels
 			center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
 			zoomlevel = 14;
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
+			imgB.Viewport = new Rect(-0.29, -0.3, 1.7, 1.7);
 			timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
 			timer.Tick += Timer_Tick;
 			GetCurrentLocation();

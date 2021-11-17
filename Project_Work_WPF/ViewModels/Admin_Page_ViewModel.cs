@@ -55,7 +55,17 @@ namespace Project_Work_WPF.ViewModels
 		}
 		private void GoToAdmin_UseronMap(object obj)
 		{
+			(PageViewModels[1] as Admin_Page_DriverOnMap_ViewModel).SetDriversOnMap();
 			ChangeViewModel(PageViewModels[1]);
+		}
+
+		private void GoTo_AddDriver(object obj)
+		{
+			Admin_Page_AddDriver_ViewModel.Name = string.Empty;
+			Admin_Page_AddDriver_ViewModel.Surname = string.Empty;
+			Admin_Page_AddDriver_ViewModel.Email = string.Empty;
+			Admin_Page_AddDriver_ViewModel.Age = 18;
+			ChangeViewModel(PageViewModels[2]);
 		}
 
 
@@ -77,11 +87,13 @@ namespace Project_Work_WPF.ViewModels
 		{
 			PageViewModels.Add(new Admin_UserPage_ViewModel());
 			PageViewModels.Add(new Admin_Page_DriverOnMap_ViewModel());
+			PageViewModels.Add(new  Admin_Page_AddDriver_ViewModel());
 
 			Mediator.Subscribe("GoToAdmin_UserPage", GoToAdmin_UserPage);
 			Mediator.Subscribe("GoTo_UserOnMap", GoToAdmin_UseronMap);
+			Mediator.Subscribe("GoTo_AddDriver", GoTo_AddDriver); 
 
-			Mediator.Notify("GoTo_UserOnMap", "");
+			Mediator.Notify("GoToAdmin_UserPage", "");
 
 		}
 	}

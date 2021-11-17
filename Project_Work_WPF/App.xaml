@@ -5,11 +5,11 @@
              xmlns:local_2="clr-namespace:Project_Work_WPF.Views" >
 
     <Application.Resources>
-        
+
         <DataTemplate DataType="{x:Type local:Login_Page_ViewModel}">
             <local_2:Login_Page_UserControl/>
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type local:User_Page_ViewModel}">
             <local_2:User_Page_UserControl/>
         </DataTemplate>
@@ -34,13 +34,17 @@
         <DataTemplate DataType="{x:Type local:Admin_Page_ViewModel}">
             <local_2:Admin_Page_UserControl/>
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type local:Admin_UserPage_ViewModel}">
             <local_2:Admin_UserPage_UserControl/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type local:Admin_Page_DriverOnMap_ViewModel}">
             <local_2:Admin_Page_DriverOnMap_UserControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:Admin_Page_AddDriver_ViewModel}">
+            <local_2:Admin_Page_AddDriver_UserControl/>
         </DataTemplate>
 
     </Application.Resources>

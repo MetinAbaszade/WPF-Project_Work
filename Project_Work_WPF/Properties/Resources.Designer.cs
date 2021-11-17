@@ -93,6 +93,16 @@ namespace Project_Work_WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Driver_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Driver_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EyeTaxi_Logo {
             get {
                 object obj = ResourceManager.GetObject("EyeTaxi_Logo", resourceCulture);

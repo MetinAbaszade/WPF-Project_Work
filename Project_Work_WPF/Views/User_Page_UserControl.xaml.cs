@@ -40,17 +40,7 @@ namespace Project_Work_WPF.Views
 		private async void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			var mousePosition = e.GetPosition(m);
-			foreach (var item in m.Children)
-			{
-				if (item is MapItemsControl s)
-				{
 
-					if (s.ItemsSource is ObservableCollection<UIElement> a)
-					{
-						a.Clear();
-					}
-				}
-			}
 			Microsoft.Maps.MapControl.WPF.Location pinLocation = (sender as Map).ViewportPointToLocation(mousePosition);
 			Uri geocodeRequest = new Uri("http://dev.virtualearth.net/REST/v1/Locations/" + pinLocation.Latitude.ToString() + "," + pinLocation.Longitude.ToString() +
 						"?key=" + ConfigurationManager.AppSettings["apiKey"]);
@@ -60,17 +50,38 @@ namespace Project_Work_WPF.Views
 
 			if (SelectedTxtBox == "From")
 			{
-				From_Pushpin.Location = pinLocation;
-				From_Pushpin.Visibility = Visibility.Visible;
+				foreach (var item in m.Children)
+				{
+					(m.DataContext as User_Page_ViewModel).From_Pushpin_Location = pinLocation;
+					(m.DataContext as User_Page_ViewModel).From_Pushpin_Visibility = Visibility.Visible;
+					if (item is MapItemsControl s)
+					{
+						if (s.ItemsSource is ObservableCollection<UIElement> a)
+						{
+							a.Clear();
+						}
+					}
+				}
 				From_Textbox.Text = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
 				From_Location = pinLocation;
-
 			}
 
 			else if (SelectedTxtBox == "To")
 			{
-				To_Pushpin.Location = pinLocation;
-				To_Pushpin.Visibility = Visibility.Visible;
+				foreach (var item in m.Children)
+				{
+					(m.DataContext as User_Page_ViewModel).To_Pushpin_Location = pinLocation;
+					(m.DataContext as User_Page_ViewModel).To_Pushpin_Visibility = Visibility.Visible;
+					if (item is MapItemsControl s)
+					{
+						if (s.ItemsSource is ObservableCollection<UIElement> a)
+						{
+							a.Clear();
+						}
+					}
+ 
+
+				}
 				To_Textbox.Text = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
 				To_Location = pinLocation;
 			}

@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Project_Work_WPF.Commands;
 using Project_Work_WPF.Models;
 using Project_Work_WPF.Navigation;
 using PropertyChanged;
@@ -21,9 +22,13 @@ namespace Project_Work_WPF.ViewModels
 			GetSampleTableData();
 		}
 
+		static Predicate<object> DeleteDriver_Predicate = new Predicate<object>(x => selecteditem != null);
+
+		public static object selecteditem { get; set; }
+
+		public static int customerId = 1;
 		private static void GetSampleTableData()
 		{
-			var customerId = 1;
 			Random random = new Random();
 
 			var userFaker = new Faker<Driver>()
@@ -33,7 +38,7 @@ namespace Project_Work_WPF.ViewModels
 				.RuleFor(o => o.Surname, f => f.Person.LastName)
 				.RuleFor(o => o.Email, (f, u) => f.Internet.Email(u.Name, u.Surname));
 
-			var drivers = userFaker.Generate(10);
+			var drivers = userFaker.Generate(30);
 
 			foreach (var item in drivers)
 			{
@@ -41,5 +46,18 @@ namespace Project_Work_WPF.ViewModels
 			}
 
 		}
+
+		public RelayCommand Add_Driver_Command { get; set; } = new RelayCommand(x =>
+		{
+			Mediator.Notify("GoTo_AddDriver", "");
+		});
+
+		public RelayCommand DeleteDriver_Command { get; set; } = new RelayCommand(
+			x =>
+			{
+				Admin_UserPage_ViewModel.Drivers.Remove((selecteditem as Driver));
+			}, DeleteDriver_Predicate
+		);
+
 	}
 }
