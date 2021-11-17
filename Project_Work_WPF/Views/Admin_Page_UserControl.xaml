@@ -21,13 +21,7 @@
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="StackPanelMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="250"/>
-            </DoubleAnimationUsingKeyFrames>
-
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="listViewItem">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-350"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
+            </DoubleAnimationUsingKeyFrames> 
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="listViewItem1">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
@@ -84,8 +78,7 @@
                 </TransformGroup>
             </StackPanel.RenderTransform> 
 
-            <ListViewItem x:Name="listViewItem" Height="60" RenderTransformOrigin="0.4,0.4" Background="Transparent">
-
+            <ListViewItem x:Name="listViewItem1"  RenderTransformOrigin="0.4,0.4" Background="Transparent"> 
                 <ListViewItem.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -95,14 +88,18 @@
                     </TransformGroup>
                 </ListViewItem.RenderTransform>
 
-                <StackPanel Orientation="Horizontal" Margin="10 0">
-                    <materialDesign:PackIcon Kind="Home" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
-                    <TextBlock Text="Home" Margin="10" VerticalAlignment="Center" FontSize="15"/>
-                </StackPanel>
+                <Button Background="Transparent" Command="{Binding GoToAdmin_User}" Width="170"  Margin="10 0">
+                    <StackPanel  Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="DriversLicense"  VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Drivers" Margin="10" VerticalAlignment="Center" FontSize="15"/>
+                    </StackPanel>
+                </Button>
 
             </ListViewItem>
 
-            <ListViewItem x:Name="listViewItem1" Height="60" RenderTransformOrigin="0.5,0.5">
+             
+
+            <ListViewItem x:Name="listViewItem2" RenderTransformOrigin="0.5,0.5">
 
                 <ListViewItem.RenderTransform>
                     <TransformGroup>
@@ -113,28 +110,12 @@
                     </TransformGroup>
                 </ListViewItem.RenderTransform>
 
-                <StackPanel Orientation="Horizontal" Margin="10 0">
-                    <materialDesign:PackIcon Kind="AccountSearch" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
-                    <TextBlock Text="Add/Delete Driver" Margin="10" VerticalAlignment="Center" FontSize="15"/>
-                </StackPanel>
-
-            </ListViewItem>
-
-            <ListViewItem x:Name="listViewItem2" Height="60" RenderTransformOrigin="0.5,0.5">
-
-                <ListViewItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </ListViewItem.RenderTransform>
-
-                <StackPanel Orientation="Horizontal" Margin="10 0">
-                    <materialDesign:PackIcon Kind="Search" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
-                    <TextBlock Text="Sea Deivers" Margin="10" VerticalAlignment="Center" FontSize="15"/>
-                </StackPanel>
+                <Button Command="{Binding GoToAdmin_UserOnMap}" Background="Transparent"  Margin="10 0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Map" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Deivers on Map" Margin="10" VerticalAlignment="Center" FontSize="15"/>
+                    </StackPanel>
+                </Button>
 
             </ListViewItem> 
                 
@@ -158,13 +139,13 @@
 
             <Button x:Name="ButtonCloseMenu"   Width="40" Height="40" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5" Click="ButtonCloseMenu_Click" Visibility="Collapsed">
                 <materialDesign:PackIcon Kind="Menu" Foreground="#FF3580BF"/>
-            </Button>
+            </Button> 
 
             <Button x:Name="ButtonOpenMenu"   Width="40" Height="40" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5" Click="ButtonOpenMenu_Click">
                 <materialDesign:PackIcon Kind="Menu" Foreground="#FF3580BF"/>
             </Button>
 
-            <ContentControl Content="{Binding CurrentPageViewModel}" />
+            <ContentControl Grid.Row="1" Content="{Binding CurrentPageViewModel}" />
 
         </Grid>
     </Grid>

@@ -156,23 +156,6 @@ namespace Project_Work_WPF.ViewModels
 		}
 
 
-		private static void GetSampleTableData()
-		{
-			var customerId = 1;
-			Random random = new Random();
-
-			var userFaker = new Faker<Driver>()
-				.CustomInstantiator(f => new Driver(customerId++.ToString()))
-				.RuleFor(o => o.Age, f => random.Next(18, 50))
-				.RuleFor(o => o.Name, f => f.Person.FirstName)
-				.RuleFor(o => o.Surname, f => f.Person.LastName)
-				.RuleFor(o => o.Email, (f, u) => f.Internet.Email(u.Name, u.Surname));
-
-			Drivers = userFaker.Generate(10);
-		}
-
-
-
 		public MainViewModel()
 		{
 			// Add available pages and set page
@@ -182,7 +165,7 @@ namespace Project_Work_WPF.ViewModels
 			PageViewModels.Add(new Register_Page_ViewModel());
 			PageViewModels.Add(new History_Page_ViewModel());
 			PageViewModels.Add(new Admin_Page_ViewModel());
-			ChangeViewModel(PageViewModels[5]);
+			ChangeViewModel(PageViewModels[2]);
 
 
 			Mediator.Subscribe("GoToStart", GoToStart);
@@ -191,7 +174,7 @@ namespace Project_Work_WPF.ViewModels
 			Mediator.Subscribe("GoToRegister", GoToRegister);
 			Mediator.Subscribe("GoToHistory", GoToHistory);
 			Mediator.Subscribe("GoToAdmin", GoToAdmin);
-			GetSampleTableData();
 		}
+
 	}
 }

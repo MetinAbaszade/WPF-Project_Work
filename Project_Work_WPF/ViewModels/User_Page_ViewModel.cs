@@ -28,6 +28,8 @@ namespace Project_Work_WPF.ViewModels
 	[AddINotifyPropertyChangedInterface]
 	class User_Page_ViewModel : BaseViewModel, IPageViewModel
 	{
+		public bool GetWithDoubleClick { get; set; } = false;
+
 		static bool departure_finished = true;
 		public static bool rotate_cliked = false;
 		public ApplicationIdCredentialsProvider Provider { get; set; } =
@@ -80,10 +82,6 @@ namespace Project_Work_WPF.ViewModels
 
 		public RelayCommand Get_Taxi_Command { get; set; }
 
-		public RelayCommand From_Textbox_GotFocus_Command { get; set; }
-
-		public RelayCommand To_Textbox_GotFocus_Command { get; set; }
-
 		public RelayCommand<object> Map_DoubleClick_Command { get; set; }
 
 		public RelayCommand Log_Out { get; set; }
@@ -95,9 +93,7 @@ namespace Project_Work_WPF.ViewModels
 		Predicate<object> departure_finished_object = new Predicate<object>(x => departure_finished == true);
 		Predicate<object> Get_Taxi_Predicate = new Predicate<object>(x => departure_finished == true && rotate_cliked == true);
 
-		string SelectedTxtBox;
-
-		private async Task<Response> GetResponse(Uri uri)
+		public static async Task<Response> GetResponse(Uri uri)
 		{
 			System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
 			var response = await client.GetAsync(uri);
@@ -151,14 +147,13 @@ namespace Project_Work_WPF.ViewModels
 				To = string.Empty;
 				Price = string.Empty;
 				departure_finished = true;
-				rotate_cliked = false;
-				Thread.Sleep(2000);
+				rotate_cliked = false; 
 
+				To_Pushpin_Visibility = Visibility.Collapsed;
 				EvaluationWindow evaluationWindow = new EvaluationWindow();
 				evaluationWindow.Height = 280;
 				evaluationWindow.Width = 400;
 				evaluationWindow.ShowDialog();
-				To_Pushpin_Visibility = Visibility.Collapsed;
 				timer.Tick -= Timer_Tick_2;
 				timer.Tick += Timer_Tick;
 				timer.Stop();
@@ -168,9 +163,49 @@ namespace Project_Work_WPF.ViewModels
 		#endregion
 
 		double Distance = 0;
+			double FromLatitude = 0;
+			double FromLongitude = 0;
 		private async void Rotate()
-		{ 
-			if (From != string.Empty && To != string.Empty && From != "" && To != "")
+		{
+			rotate_cliked = false;
+			if (GetWithDoubleClick)
+			{
+				Route = new ObservableCollection<UIElement>();
+				string URL = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
+						  User_Page_UserControl.From_Location.Latitude + "," +
+						  User_Page_UserControl.From_Location.Longitude + "&wp.1=" +
+						  User_Page_UserControl.To_Location.Latitude + "," +
+						  User_Page_UserControl.To_Location.Longitude + "&optmz=distance&rpo=Points&key=" +
+						  ConfigurationManager.AppSettings["apiKey"];
+
+				var geocodeRequest = new Uri(URL);
+				var r = await GetResponse(geocodeRequest);
+				 route_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
+
+				FromLatitude = User_Page_UserControl.From_Location.Latitude;
+				FromLongitude = User_Page_UserControl.From_Location.Longitude;
+
+				routeLine = new MapPolyline();
+				routeLine.Locations = new LocationCollection();
+				routeLine.Stroke = new SolidColorBrush(Colors.Blue);
+				routeLine.Opacity = 150;
+
+				for (int i = 0; i < route_bound; i++)
+				{
+
+					routeLine.Locations.Add(new Microsoft.Maps.MapControl.WPF.Location
+					{
+						Latitude = ((Route)
+							  (r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[i][0],
+						Longitude = ((Route)
+							  (r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[i][1]
+					});
+				}
+
+				Route.Add(routeLine);
+			}
+
+			else
 			{
 				try
 				{
@@ -180,11 +215,11 @@ namespace Project_Work_WPF.ViewModels
 					Route = new ObservableCollection<UIElement>();
 
 					string URL = "http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" +
-					$"{From}" + ",MN&wp.1=" + $"{To}" +
-					",MN&optmz=distance&routeAttributes=routePath&key=" + ConfigurationManager.AppSettings["apiKey"];
-					Uri geocodeRequest = new Uri(URL);
+				   $"{From}" + ",MN&wp.1=" + $"{To}" +
+				   ",MN&optmz=distance&routeAttributes=routePath&key=" + ConfigurationManager.AppSettings["apiKey"];
 
-					Response r = await GetResponse(geocodeRequest);
+					var geocodeRequest = new Uri(URL);
+					var r = await GetResponse(geocodeRequest);
 
 
 					float currentdeparture_price = (float)(((Route)(r.ResourceSets[0].Resources[0])).TravelDistance * 0.4);
@@ -193,8 +228,8 @@ namespace Project_Work_WPF.ViewModels
 					currentdeparture.Distance = (float)((Route)(r.ResourceSets[0].Resources[0])).TravelDistance;
 
 
-					var FromLatitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][0];
-					var FromLongitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][1];
+					FromLatitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][0];
+					FromLongitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][1];
 
 					var location = new Microsoft.Maps.MapControl.WPF.Location(FromLatitude, FromLongitude);
 
@@ -215,6 +250,7 @@ namespace Project_Work_WPF.ViewModels
 
 					var location_2 = new Microsoft.Maps.MapControl.WPF.Location(FromLatitude_2, FromLongitude_2);
 
+					To_Pushpin_Visibility = Visibility.Hidden;
 					To_Pushpin_Location = location_2;
 					To_Pushpin_Visibility = Visibility.Visible;
 
@@ -234,89 +270,6 @@ namespace Project_Work_WPF.ViewModels
 					}
 
 					Route.Add(routeLine);
-
-					string Latitude, Longitude, Latitude_2, Longitude_2, url;
-					Uri geocodeRequest_2;
-					Response r_2;
-					double fromLatitude, fromLongitude;
-					int bound_2, index;
-					Random random = new Random();
-
-					for (int i = 0; i < 5; i++)
-					{
-						double a = random.NextDouble() * (0.017 - 0.005) + 0.005;
-						double b = random.NextDouble() * (0.017 - 0.005) + 0.005;
-
-						if (random.Next(0, 2) == 0)
-						{
-							a = a * -1;
-						}
-
-						if (random.Next(0, 2) == 0)
-						{
-							b = b * -1;
-						}
-
-						Pushpin pushpin = new Pushpin();
-
-						pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(FromLatitude + a, FromLongitude + b);
-
-						Latitude = pushpin.Location.Latitude.ToString().Replace(',', '.');
-						Longitude = pushpin.Location.Longitude.ToString().Replace(',', '.');
-						Latitude_2 = From_Pushpin_Location.Latitude.ToString().Replace(',', '.');
-						Longitude_2 = From_Pushpin_Location.Longitude.ToString().Replace(',', '.');
-
-						url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
-						   Latitude + "," +
-						   Longitude + "&wp.1=" +
-						   Latitude_2 + "," +
-						   Longitude_2 + "&optmz=distance&rpo=Points&key=" +
-						   ConfigurationManager.AppSettings["apiKey"];
-
-						geocodeRequest_2 = new Uri(url);
-						r_2 = await GetResponse(geocodeRequest_2);
-
-
-						bound_2 = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
-
-						index = random.Next(0, bound_2 - 1);
-
-						fromLatitude = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[index][0];
-						fromLongitude = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[index][1];
-
-						pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(fromLatitude, fromLongitude);
-
-						pushpin.Background = imgB;
-
-						taxies.Add(pushpin);
-						Route.Add(pushpin);
-
-						Latitude = pushpin.Location.Latitude.ToString().Replace(',', '.');
-						Longitude = pushpin.Location.Longitude.ToString().Replace(',', '.');
-						Latitude_2 = From_Pushpin_Location.Latitude.ToString().Replace(',', '.');
-						Longitude_2 = From_Pushpin_Location.Longitude.ToString().Replace(',', '.');
-
-						url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
-						  Latitude + "," +
-						  Longitude + "&wp.1=" +
-						  Latitude_2 + "," +
-						  Longitude_2 + "&optmz=distance&rpo=Points&key=" +
-						  ConfigurationManager.AppSettings["apiKey"];
-
-						geocodeRequest_2 = new Uri(url);
-						r_2 = await GetResponse(geocodeRequest_2);
-
-						if (Distance == 0)
-						{
-							Distance = ((Route)(r_2.ResourceSets[0].Resources[0])).TravelDistance;
-						}
-
-						if (Distance > ((Route)(r_2.ResourceSets[0].Resources[0])).TravelDistance)
-						{
-							Distance = ((Route)(r_2.ResourceSets[0].Resources[0])).TravelDistance;
-						}
-					}
-					rotate_cliked = true;
 				}
 
 				catch (Exception)
@@ -324,7 +277,100 @@ namespace Project_Work_WPF.ViewModels
 					MessageBox.Show("Error Occured !!! Please Try Again");
 				}
 			}
+
+			try
+			{
+
+				string Latitude, Longitude, Latitude_2, Longitude_2, url;
+				Uri geocodeRequest_2;
+				Response r_2;
+				double fromLatitude, fromLongitude;
+				int bound_2, index;
+				Random random = new Random();
+
+				for (int i = 0; i < 5; i++)
+				{
+					double a = random.NextDouble() * (0.017 - 0.005) + 0.005;
+					double b = random.NextDouble() * (0.017 - 0.005) + 0.005;
+
+					if (random.Next(0, 2) == 0)
+					{
+						a = a * -1;
+					}
+
+					if (random.Next(0, 2) == 0)
+					{
+						b = b * -1;
+					}
+
+					Pushpin pushpin = new Pushpin();
+
+					pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(FromLatitude + a, FromLongitude + b);
+
+					Latitude = pushpin.Location.Latitude.ToString().Replace(',', '.');
+					Longitude = pushpin.Location.Longitude.ToString().Replace(',', '.');
+					Latitude_2 = FromLatitude.ToString().Replace(',', '.'); 
+					Longitude_2 = FromLongitude.ToString().Replace(',', '.');
+
+					url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
+					   Latitude + "," +
+					   Longitude + "&wp.1=" +
+					   Latitude_2 + "," +
+					   Longitude_2 + "&optmz=distance&rpo=Points&key=" +
+					   ConfigurationManager.AppSettings["apiKey"];
+
+					geocodeRequest_2 = new Uri(url);
+					r_2 = await GetResponse(geocodeRequest_2);
+
+
+					bound_2 = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.GetUpperBound(0);
+
+					index = random.Next(0, bound_2 - 1);
+
+					fromLatitude = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[index][0];
+					fromLongitude = ((Route)(r_2.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[index][1];
+
+					pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(fromLatitude, fromLongitude);
+
+					pushpin.Background = imgB;
+
+					taxies.Add(pushpin);
+					Route.Add(pushpin);
+
+					Latitude = pushpin.Location.Latitude.ToString().Replace(',', '.');
+					Longitude = pushpin.Location.Longitude.ToString().Replace(',', '.');
+					Latitude_2 = FromLatitude.ToString().Replace(',', '.');
+					Longitude_2 = FromLongitude.ToString().Replace(',', '.');
+
+					url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
+					  Latitude + "," +
+					  Longitude + "&wp.1=" +
+					  Latitude_2 + "," +
+					  Longitude_2 + "&optmz=distance&rpo=Points&key=" +
+					  ConfigurationManager.AppSettings["apiKey"];
+
+					geocodeRequest_2 = new Uri(url);
+					r_2 = await GetResponse(geocodeRequest_2);
+
+					if (Distance == 0)
+					{
+						Distance = ((Route)(r_2.ResourceSets[0].Resources[0])).TravelDistance;
+					}
+
+					if (Distance > ((Route)(r_2.ResourceSets[0].Resources[0])).TravelDistance)
+					{
+						Distance = ((Route)(r_2.ResourceSets[0].Resources[0])).TravelDistance;
+					}
+				}
+				rotate_cliked = true;
+			}
+
+			catch (Exception)
+			{
+				MessageBox.Show("Error Occured !!! Please Try Again");
+			}
 		}
+
 
 		private async void Get_Taxi()
 		{
@@ -340,8 +386,8 @@ namespace Project_Work_WPF.ViewModels
 				{
 					Latitude = item.Location.Latitude.ToString().Replace(',', '.');
 					Longitude = item.Location.Longitude.ToString().Replace(',', '.');
-					Latitude_2 = From_Pushpin_Location.Latitude.ToString().Replace(',', '.');
-					Longitude_2 = From_Pushpin_Location.Longitude.ToString().Replace(',', '.');
+					Latitude_2 = FromLatitude.ToString().Replace(',', '.');
+					Longitude_2 = FromLongitude.ToString().Replace(',', '.');
 
 					url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
 					   Latitude + "," +
@@ -368,8 +414,8 @@ namespace Project_Work_WPF.ViewModels
 
 				string latitude = Taxi.Location.Latitude.ToString().Replace(',', '.');
 				string longitude = Taxi.Location.Longitude.ToString().Replace(',', '.');
-				string latitude_2 = From_Pushpin_Location.Latitude.ToString().Replace(',', '.');
-				string longitude_2 = From_Pushpin_Location.Longitude.ToString().Replace(',', '.');
+				string latitude_2 = FromLatitude.ToString().Replace(',', '.');
+				string longitude_2 = FromLongitude.ToString().Replace(',', '.');
 
 				string URL = "http://dev.virtualearth.net/REST/V1/Routes/Driving?o=json&wp.0=" +
 					latitude + "," +
@@ -406,21 +452,8 @@ namespace Project_Work_WPF.ViewModels
 			}
 		}
 
-		private void From_Textbox_GotFocus()
-		{
-			SelectedTxtBox = "From";
-		}
-
-		private void To_Textbox_GotFocus()
-		{
-			SelectedTxtBox = "To";
-		} 
-
-
 		public User_Page_ViewModel()
 		{
-
-			Map_DoubleClick_Command = new RelayCommand<object>(Map_DoubleClick);
 
 			History_Command = new RelayCommand(
 				  x =>
@@ -450,20 +483,6 @@ namespace Project_Work_WPF.ViewModels
 				}, Get_Taxi_Predicate
 			);
 
-			From_Textbox_GotFocus_Command = new RelayCommand(
-				a =>
-				{
-					From_Textbox_GotFocus();
-				}, departure_finished_object
-			);
-
-			To_Textbox_GotFocus_Command = new RelayCommand(
-				a =>
-				{
-					To_Textbox_GotFocus();
-				}, departure_finished_object
-			);
-
 			center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
 			zoomlevel = 14;
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
@@ -482,6 +501,7 @@ namespace Project_Work_WPF.ViewModels
 			}
 			return "";
 		}
+
 		public async void GetCurrentLocation()
 		{
 			if (Route.Count == 0)
@@ -494,20 +514,19 @@ namespace Project_Work_WPF.ViewModels
 				{
 					string info = new WebClient().DownloadString("http://ipinfo.io/" + ipAddress);
 					ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
-					Pushpin pushpin = new Pushpin();
 					double lat = double.Parse(ipInfo.Loc.Split(',')[0]);
 					double lon = double.Parse(ipInfo.Loc.Split(',')[1]);
 					lat += 0.001;
 					lon += 0.001;
-					pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(lat, lon);
-					center = pushpin.Location;
-					Route.Add(pushpin);
+					From_Pushpin_Location = new Microsoft.Maps.MapControl.WPF.Location(lat, lon);
+					center = From_Pushpin_Location;
 
 					Uri geocodeRequest = new Uri("http://dev.virtualearth.net/REST/v1/Locations/" + lat.ToString() + "," + lon.ToString() +
 						"?key=" + ConfigurationManager.AppSettings["apiKey"]);
 					Response r = await GetResponse(geocodeRequest);
 
 					From = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
+					From_Pushpin_Visibility = Visibility.Visible;
 				}
 				catch (Exception)
 				{
@@ -515,23 +534,5 @@ namespace Project_Work_WPF.ViewModels
 			}
 		}
 
-		public void Map_DoubleClick(object sender)
-		{
-			var mousePosition = Mouse.GetPosition(Application.Current.MainWindow);
-			Microsoft.Maps.MapControl.WPF.Location pinLocation = (sender as Map).ViewportPointToLocation(mousePosition);
-			Pushpin a = new Pushpin();
-			a.Location = pinLocation;
-			Route.Add(a);
-		}
-
-		//private void OnItemSelected(object[] selectedItems)
-		//{
-		//	if (selectedItems != null && selectedItems.Count() > 0)
-		//	{
-		//		SelectedItemText = selectedItems.FirstOrDefault().ToString();
-		//	}
-		//}
-
 	}
-
 }

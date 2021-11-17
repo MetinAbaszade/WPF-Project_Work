@@ -1,6 +1,10 @@
-﻿using Microsoft.Maps.MapControl.WPF;
+﻿using BingMapsRESTToolkit;
+using Microsoft.Maps.MapControl.WPF;
+using Project_Work_WPF.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,16 +25,68 @@ namespace Project_Work_WPF.Views
 	/// </summary>
 	public partial class User_Page_UserControl : UserControl
 	{
-		public static Microsoft.Maps.MapControl.WPF.Location pinLocation;
+
+		public string SelectedTxtBox { get; set; }
+
+		public static Microsoft.Maps.MapControl.WPF.Location From_Location = new Microsoft.Maps.MapControl.WPF.Location();
+
+		public static Microsoft.Maps.MapControl.WPF.Location To_Location = new Microsoft.Maps.MapControl.WPF.Location();
 
 		public User_Page_UserControl()
 		{
 			InitializeComponent();
 		}
 
-		private void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		private async void Map_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
+			var mousePosition = e.GetPosition(m);
+			foreach (var item in m.Children)
+			{
+				if (item is MapItemsControl s)
+				{
 
+					if (s.ItemsSource is ObservableCollection<UIElement> a)
+					{
+						a.Clear();
+					}
+				}
+			}
+			Microsoft.Maps.MapControl.WPF.Location pinLocation = (sender as Map).ViewportPointToLocation(mousePosition);
+			Uri geocodeRequest = new Uri("http://dev.virtualearth.net/REST/v1/Locations/" + pinLocation.Latitude.ToString() + "," + pinLocation.Longitude.ToString() +
+						"?key=" + ConfigurationManager.AppSettings["apiKey"]);
+
+
+			Response r = await User_Page_ViewModel.GetResponse(geocodeRequest);
+
+			if (SelectedTxtBox == "From")
+			{
+				From_Pushpin.Location = pinLocation;
+				From_Pushpin.Visibility = Visibility.Visible;
+				From_Textbox.Text = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
+				From_Location = pinLocation;
+
+			}
+
+			else if (SelectedTxtBox == "To")
+			{
+				To_Pushpin.Location = pinLocation;
+				To_Pushpin.Visibility = Visibility.Visible;
+				To_Textbox.Text = ((BingMapsRESTToolkit.Location)r.ResourceSets[0].Resources[0]).Address.AddressLine + " Baku";
+				To_Location = pinLocation;
+			}
+
+			//m.Children.Add(From_Pushpin);
+			//m.Children.Add(To_Pushpin);
+		}
+
+		private void From_Textbox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			SelectedTxtBox = "From";
+		}
+
+		private void To_Textbox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			SelectedTxtBox = "To";
 		}
 	}
 }

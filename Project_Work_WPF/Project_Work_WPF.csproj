@@ -107,7 +107,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\IpInfo.cs" />
+    <Compile Include="ViewModels\Admin_Page_DriverOnMap_ViewModel.cs" />
     <Compile Include="ViewModels\Admin_Page_ViewModel.cs" />
+    <Compile Include="ViewModels\Admin_UserPage_ViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Evaluation_ViewModel.cs" />
     <Compile Include="ViewModels\GeoInfoViewModel.cs" />
@@ -116,8 +118,14 @@
     <Compile Include="ViewModels\Register_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Start_ViewModel.cs" />
     <Compile Include="ViewModels\User_Page_ViewModel.cs" />
+    <Compile Include="Views\Admin_Page_DriverOnMap_UserControl.xaml.cs">
+      <DependentUpon>Admin_Page_DriverOnMap_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Admin_Page_UserControl.xaml.cs">
       <DependentUpon>Admin_Page_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin_UserPage_UserControl.xaml.cs">
+      <DependentUpon>Admin_UserPage_UserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EvaluationWindow.xaml.cs">
       <DependentUpon>EvaluationWindow.xaml</DependentUpon>
@@ -149,7 +157,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Admin_Page_DriverOnMap_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Admin_Page_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin_UserPage_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -34,7 +34,14 @@
         <DataTemplate DataType="{x:Type local:Admin_Page_ViewModel}">
             <local_2:Admin_Page_UserControl/>
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type local:Admin_UserPage_ViewModel}">
+            <local_2:Admin_UserPage_UserControl/>
+        </DataTemplate>
 
+        <DataTemplate DataType="{x:Type local:Admin_Page_DriverOnMap_ViewModel}">
+            <local_2:Admin_Page_DriverOnMap_UserControl/>
+        </DataTemplate>
 
     </Application.Resources>
 
