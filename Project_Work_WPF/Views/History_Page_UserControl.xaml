@@ -6,13 +6,15 @@
              xmlns:test ="clr-namespace:Project_Work_WPF.ViewModels"
              xmlns:local="clr-namespace:Project_Work_WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="900">
 
     <Grid Background="White">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="10*"></ColumnDefinition>
+            <ColumnDefinition Width="18*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        
         <Button Height="50" VerticalAlignment="Bottom" Background="Transparent" BorderThickness="0"
                 Command="{Binding Log_Out}">
             <Image Source="/Resources/Back Icon.png"></Image>
@@ -22,12 +24,15 @@
             <ListView x:Name="AA" ItemsSource="{Binding Departures}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Date" Width="130" DisplayMemberBinding="{Binding Date, StringFormat=d}"></GridViewColumn>
-                        <GridViewColumn Header="Start Time" Width="130" DisplayMemberBinding="{Binding StartTime, StringFormat=t}"></GridViewColumn>
-                        <GridViewColumn Header="Finish Time" Width="130" DisplayMemberBinding="{Binding EndTime, StringFormat=t}"></GridViewColumn>
-                        <GridViewColumn Header="Duration" Width="130" DisplayMemberBinding="{Binding Duration, StringFormat=t}"></GridViewColumn>
-                        <GridViewColumn Header="Distance" Width="125" DisplayMemberBinding="{Binding Distance}"></GridViewColumn>
+                        <GridViewColumn Header="Date" Width="140" DisplayMemberBinding="{Binding Date, StringFormat=d}"></GridViewColumn>
+                        <GridViewColumn Header="Start Time" Width="110" DisplayMemberBinding="{Binding StartTime, StringFormat=t}"></GridViewColumn>
+                        <GridViewColumn Header="Finish Time" Width="110" DisplayMemberBinding="{Binding EndTime, StringFormat=t}"></GridViewColumn>
+                        <GridViewColumn Header="Duration" Width="110" DisplayMemberBinding="{Binding Duration, StringFormat=t}"></GridViewColumn>
+                        <GridViewColumn Header="Distance" Width="105" DisplayMemberBinding="{Binding Distance}"></GridViewColumn>
                         <GridViewColumn Header="Cost" Width="60" DisplayMemberBinding="{Binding Cost}"></GridViewColumn>
+                        <GridViewColumn Header="Driver Name" Width="130" DisplayMemberBinding="{Binding driver.Name}"></GridViewColumn>
+                        <GridViewColumn Header="Driver CarNumber" Width="130" DisplayMemberBinding="{Binding driver.CarNumber}"></GridViewColumn>
+                        <GridViewColumn Header="Driver Point" Width="130" DisplayMemberBinding="{Binding driver.Point}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

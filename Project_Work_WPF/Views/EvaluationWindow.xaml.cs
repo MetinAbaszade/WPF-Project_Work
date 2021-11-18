@@ -29,7 +29,7 @@ namespace Project_Work_WPF.Views
 			DataContext = this;
 		}
 
-		int star_count = 0;
+		public static int star_count = 0;
 
 		public string Button1_Source { get; set; } = "/Resources/Black StarIcon.png";
 		public string Button2_Source { get; set; } = "/Resources/Black StarIcon.png";
@@ -127,6 +127,11 @@ namespace Project_Work_WPF.Views
 			Button4_Source = "/Resources/Black StarIcon.png";
 			Button5_Source = "/Resources/Black StarIcon.png";
 			star_count = 0;
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
 		}
 	}
 }

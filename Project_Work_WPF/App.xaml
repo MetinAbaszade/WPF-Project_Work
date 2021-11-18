@@ -22,11 +22,6 @@
             <local_2:History_Page_UserControl/>
         </DataTemplate>
 
-
-        <DataTemplate DataType="{x:Type local:Start_ViewModel}">
-            <local_2:Start_Page_UserControl/>
-        </DataTemplate>
-
         <DataTemplate DataType="{x:Type local:MainViewModel}">
             <local_2:MainWindow/>
         </DataTemplate>
@@ -45,6 +40,14 @@
 
         <DataTemplate DataType="{x:Type local:Admin_Page_AddDriver_ViewModel}">
             <local_2:Admin_Page_AddDriver_UserControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:Admin_Page_SetPrice_ViewModel}">
+            <local_2:Admin_Page_SetPrice_UserControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:Admin_Page_Company_Statistic_ViewModell}">
+            <local_2:Admin_Page_Company_Statistic_UserControl/>
         </DataTemplate>
 
     </Application.Resources>

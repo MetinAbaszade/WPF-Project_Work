@@ -57,12 +57,12 @@ namespace Project_Work_WPF.ViewModels
 					if (MainViewModel.Check_User(Username, Password))
 					{
 
-						return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
+						return new RelayCommand(x =>
 						{
 							Username = string.Empty;
 							Password = string.Empty;
 							Mediator.Notify("GoToUser", "");
-						}));
+						});
 					}
 
 					return new RelayCommand(x =>
@@ -71,16 +71,17 @@ namespace Project_Work_WPF.ViewModels
 					});
 				}
 
-				else {
+				else
+				{
 					if (MainViewModel.Check_Admin(Username, Password))
 					{
 
-						return _goTo44 ?? (_goTo44 = new RelayCommand(x =>
+						return new RelayCommand(x =>
 						{
 							Username = string.Empty;
 							Password = string.Empty;
 							Mediator.Notify("GoToAdmin", "");
-						}));
+						});
 					}
 
 					return new RelayCommand(x =>
@@ -97,27 +98,14 @@ namespace Project_Work_WPF.ViewModels
 		{
 			get
 			{
-				return _goTo2 ?? (_goTo2 = new RelayCommand(x =>
+				return new RelayCommand(x =>
 					{
 						Username = string.Empty;
 						Password = string.Empty;
 						Mediator.Notify("GoToRegister", "");
-					}));
+					});
 			}
 
-		}
-
-		private RelayCommand _goTo3;
-
-		public RelayCommand GoTo_Start
-		{
-			get
-			{
-				return _goTo3 ?? (_goTo3 = new RelayCommand(x =>
-				{
-					Mediator.Notify("GoToStart", "");
-				}));
-			}
 		}
 
 		public RelayCommand Hide { get; set; }

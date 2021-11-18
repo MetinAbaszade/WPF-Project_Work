@@ -22,7 +22,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="ss" Width="500" Height="250" VerticalAlignment="Top" Margin="0, 20, 0, 0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding selecteditem}">
+        <DataGrid x:Name="ss" Width="650" Height="250" VerticalAlignment="Top" Margin="0, 15, 0, 0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding selecteditem}">
             <DataGrid.Resources>
 
                 <Style TargetType="DataGridColumnHeader">

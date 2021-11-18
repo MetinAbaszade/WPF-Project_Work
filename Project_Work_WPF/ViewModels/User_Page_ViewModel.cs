@@ -28,6 +28,8 @@ namespace Project_Work_WPF.ViewModels
 	[AddINotifyPropertyChangedInterface]
 	class User_Page_ViewModel : BaseViewModel, IPageViewModel
 	{
+
+		public double MonthlyProfit { get; set; } = 0;
 		public bool GetWithDoubleClick { get; set; } = false;
 
 		static bool departure_finished = true;
@@ -62,6 +64,9 @@ namespace Project_Work_WPF.ViewModels
 		int route_bound;
 
 		DispatcherTimer timer = new DispatcherTimer();
+
+		DispatcherTimer Per_Month_Timer = new DispatcherTimer();
+
 
 		private static readonly HttpClient _httpClient = new HttpClient();
 
@@ -142,6 +147,7 @@ namespace Project_Work_WPF.ViewModels
 				currentdeparture.EndTime = DateTime.Now;
 				currentdeparture.Duration = currentdeparture.EndTime.Subtract(currentdeparture.StartTime);
 				Departures.Add(currentdeparture);
+
 				History_Page_ViewModel.Departures = Departures;
 				From = string.Empty;
 				To = string.Empty;
@@ -154,10 +160,25 @@ namespace Project_Work_WPF.ViewModels
 				evaluationWindow.Height = 280;
 				evaluationWindow.Width = 400;
 				evaluationWindow.ShowDialog();
+				Random random = new Random();
+				int index = random.Next(0, Admin_UserPage_ViewModel.Drivers.Count - 1);
+				currentdeparture.driver = Admin_UserPage_ViewModel.Drivers[index];
+				Admin_UserPage_ViewModel.Drivers[index].setPoint(EvaluationWindow.star_count);				
+				string price = currentdeparture.Cost;
+				Admin_Page_Company_Statistic_ViewModell.TotalProfit += double.Parse(price.Split('A')[0]);
+				MonthlyProfit += double.Parse(price.Split('A')[0]);
+				counter = 0;
 				timer.Tick -= Timer_Tick_2;
 				timer.Tick += Timer_Tick;
 				timer.Stop();
 			}
+		}
+
+		private void Per_Month_Tick(object sender, EventArgs e)
+		{
+			Admin_Page_Company_Statistic_ViewModell.Months.Add(
+				new Month(DateTime.Now.AddMonths(-1), MonthlyProfit));
+			MonthlyProfit = 0;
 		}
 
 		#endregion
@@ -184,6 +205,11 @@ namespace Project_Work_WPF.ViewModels
 				var geocodeRequest = new Uri(URL);
 				var r = await GetResponse(geocodeRequest);
 				route_bound = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates.Length;
+
+				float currentdeparture_price = (float)(((Route)(r.ResourceSets[0].Resources[0])).TravelDistance * Admin_Page_SetPrice_ViewModel.XValue);
+				currentdeparture.Cost = currentdeparture_price.ToString() + " AZN";
+				Price = currentdeparture.Cost;
+				currentdeparture.Distance = (float)((Route)(r.ResourceSets[0].Resources[0])).TravelDistance;
 
 				FromLatitude = User_Page_UserControl.From_Location.Latitude;
 				FromLongitude = User_Page_UserControl.From_Location.Longitude;
@@ -228,7 +254,7 @@ namespace Project_Work_WPF.ViewModels
 					FromLongitude = ((Route)(r.ResourceSets[0].Resources[0])).RoutePath.Line.Coordinates[0][1];
 
 
-					float currentdeparture_price = (float)(((Route)(r.ResourceSets[0].Resources[0])).TravelDistance * 0.4);
+					float currentdeparture_price = (float)(((Route)(r.ResourceSets[0].Resources[0])).TravelDistance * Admin_Page_SetPrice_ViewModel.XValue);
 					currentdeparture.Cost = currentdeparture_price.ToString() + " AZN";
 					Price = currentdeparture.Cost;
 					currentdeparture.Distance = (float)((Route)(r.ResourceSets[0].Resources[0])).TravelDistance;
@@ -375,7 +401,7 @@ namespace Project_Work_WPF.ViewModels
 				MessageBox.Show("Error Occured !!! Please Try Again");
 			}
 		}
-		 
+
 		private async void Get_Taxi()
 		{
 			if (taxies.Count > 0)
@@ -490,6 +516,8 @@ namespace Project_Work_WPF.ViewModels
 			center = new Microsoft.Maps.MapControl.WPF.Location(40.4093, 49.8671);
 			zoomlevel = 14;
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
+			Per_Month_Timer.Interval = new TimeSpan(30, 0, 0);
+			Per_Month_Timer.Tick += Per_Month_Tick;
 			imgB.Viewport = new Rect(-0.29, -0.3, 1.7, 1.7);
 			timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
 			timer.Tick += Timer_Tick;
@@ -506,6 +534,7 @@ namespace Project_Work_WPF.ViewModels
 			}
 			return "";
 		}
+
 
 		public async void GetCurrentLocation()
 		{

@@ -68,7 +68,7 @@
             <TextBox Background="AliceBlue" Height="130" Width="220" Margin="0, 0, 0, 15"
                      materialDesign:HintAssist.Hint="Comment Here" BorderThickness="1" FontSize="15" TextWrapping="Wrap"
                      Style="{StaticResource MaterialDesignTextBoxBase}"></TextBox>
-            <Button Width="220" Height ="20" VerticalAlignment="Bottom" Margin="0, 0, 0, 16" FontSize="11">Comment</Button>
+            <Button Width="220" Height ="20" VerticalAlignment="Bottom" Margin="0, 0, 0, 16" FontSize="11" Click="Button_Click">Comment</Button>
         </Grid>
     </Grid>
 </Window>

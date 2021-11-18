@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\App.xaml
-12-1756602291
+13503060293
 
-39-1684232365
+42669737086
 137-896639420
-Components\BindablePasswordBox.xaml;Views\Admin_Page_AddDriver_UserControl.xaml;Views\Admin_Page_DriverOnMap_UserControl.xaml;Views\Admin_Page_UserControl.xaml;Views\Admin_UserPage_UserControl.xaml;Views\EvaluationWindow.xaml;Views\History_Page_UserControl.xaml;Views\Login_Page_UserControl.xaml;Views\MainWindow.xaml;Views\Register_Page_UserControl.xaml;Views\Start_Page_UserControl.xaml;Views\User_Page_UserControl.xaml;
+Components\BindablePasswordBox.xaml;Views\Admin_Page_AddDriver_UserControl.xaml;Views\Admin_Page_Company_Statistic_UserControl.xaml;Views\Admin_Page_DriverOnMap_UserControl.xaml;Views\Admin_Page_SetPrice_UserControl.xaml;Views\Admin_Page_UserControl.xaml;Views\Admin_UserPage_UserControl.xaml;Views\EvaluationWindow.xaml;Views\History_Page_UserControl.xaml;Views\Login_Page_UserControl.xaml;Views\MainWindow.xaml;Views\Register_Page_UserControl.xaml;Views\User_Page_UserControl.xaml;
 
 False
 

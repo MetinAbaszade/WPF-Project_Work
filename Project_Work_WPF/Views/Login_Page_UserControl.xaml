@@ -35,13 +35,8 @@
                 <ColumnDefinition ></ColumnDefinition>
                 <ColumnDefinition ></ColumnDefinition>
                 <ColumnDefinition ></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions> 
             
-            <Button Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
-                Command="{Binding GoTo_Start}">
-                <Image Source="/Resources/Back Icon.png"></Image>
-            </Button>
-
             <Grid Grid.Column="1">
 
                 <Grid.RowDefinitions>
@@ -56,6 +51,24 @@
                 <Image Grid.Row="1" Source="/Resources/EyeTaxi Logo .png" Height="85" Margin="20, 0, 0, 0"></Image>
                  
 
+
+                <TextBox Name="Username_TextBox" Grid.Row="2" materialDesign:HintAssist.Hint="Username" 
+                         Margin="0 ,0,0 0" FontSize="20" Text="{Binding Username}"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                         HorizontalAlignment="Center" Width="150"/>
+
+                <components:BindablePasswordBox Grid.Row="3" materialDesign:HintAssist.Hint="Password"         
+                             Margin="0 ,0,0 0" FontSize="20" 
+                             Password="{Binding Password}" x:Name="Password_Box"
+                             HorizontalAlignment="Center" Width="150" Visibility="{Binding password_box_visibility}"/>
+
+                <TextBox  Grid.Row="3" materialDesign:HintAssist.Hint="Password" 
+                          Margin="0 ,0,0 0" FontSize="20" 
+                          Text= "{Binding Password}" Name ="Password_2Box"
+                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                          HorizontalAlignment="Center" Width="150" Visibility="{Binding password_box_visibility_2}" >
+                </TextBox>
+                
                 <Grid Grid.Row="4" Margin="0, 10, 0, 0">
 
                     <Grid.ColumnDefinitions>
@@ -79,30 +92,23 @@
 
                 </Grid>
 
-                <TextBox Name="Username_TextBox" Grid.Row="2" materialDesign:HintAssist.Hint="Username" 
-                         Margin="0 ,0,0 0" FontSize="20" Text="{Binding Username}"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                         HorizontalAlignment="Center" Width="150"/>
-
-                <components:BindablePasswordBox Grid.Row="3" materialDesign:HintAssist.Hint="Password"         
-                             Margin="0 ,0,0 0" FontSize="20" 
-                             Password="{Binding Password}"
-                             HorizontalAlignment="Center" Width="150" Visibility="{Binding password_box_visibility}"/>
-
-                <TextBox  Grid.Row="3" materialDesign:HintAssist.Hint="Password" 
-                          Margin="0 ,0,0 0" FontSize="20" 
-                          Text= "{Binding Password}"
-                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                          HorizontalAlignment="Center" Width="150" Visibility="{Binding password_box_visibility_2}" >
-                </TextBox>
-
                 <!--Command="{Binding Hide_Command}"-->
 
                 <Button Grid.Row="3" Grid.Column="1" Width="30" Height="19" 
                         HorizontalAlignment="Right" Margin="0, 10, 20, 0" Background="Transparent" BorderThickness="0"
                         Command="{Binding Hide}">
                     <Image Source ="/Resources/Hidden Icon.png" Margin="-15"></Image>
-                </Button> 
+                </Button>
+
+                <TextBlock Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 0, 50, 0" FontSize="20"
+                            FontFamily="Baskerville Old Face">Admin</TextBlock>
+                <TextBlock Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60, 0, 0, 0" FontSize="20"
+                           FontFamily="Baskerville Old Face">User</TextBlock>
+
+                <ToggleButton Grid.Row="5"  Name="Toggle" Checked="Toggle_Checked" Unchecked="Toggle_UnChecked">
+                 
+                </ToggleButton>
+                
             </Grid>
         </Grid>
     </Grid>

@@ -113,6 +113,7 @@
     <Compile Include="CustomExceptions\InvalidDataException.cs" />
     <Compile Include="Models\Departure.cs" />
     <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\Month.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Navigation\IPageViewModel.cs" />
     <Compile Include="Navigation\Mediator.cs" />
@@ -123,7 +124,9 @@
     </Compile>
     <Compile Include="Services\IpInfo.cs" />
     <Compile Include="ViewModels\Admin_Page_AddDriver_ViewModel.cs" />
+    <Compile Include="ViewModels\Admin_Page_Company_Statistic_ViewModel.cs" />
     <Compile Include="ViewModels\Admin_Page_DriverOnMap_ViewModel.cs" />
+    <Compile Include="ViewModels\Admin_Page_SetPrice_ViewModel.cs" />
     <Compile Include="ViewModels\Admin_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Admin_UserPage_ViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
@@ -132,13 +135,18 @@
     <Compile Include="ViewModels\History_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Login_Page_ViewModel.cs" />
     <Compile Include="ViewModels\Register_Page_ViewModel.cs" />
-    <Compile Include="ViewModels\Start_ViewModel.cs" />
     <Compile Include="ViewModels\User_Page_ViewModel.cs" />
     <Compile Include="Views\Admin_Page_AddDriver_UserControl.xaml.cs">
       <DependentUpon>Admin_Page_AddDriver_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Admin_Page_Company_Statistic_UserControl.xaml.cs">
+      <DependentUpon>Admin_Page_Company_Statistic_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Admin_Page_DriverOnMap_UserControl.xaml.cs">
       <DependentUpon>Admin_Page_DriverOnMap_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin_Page_SetPrice_UserControl.xaml.cs">
+      <DependentUpon>Admin_Page_SetPrice_UserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin_Page_UserControl.xaml.cs">
       <DependentUpon>Admin_Page_UserControl.xaml</DependentUpon>
@@ -166,9 +174,6 @@
     <Compile Include="Views\Register_Page_UserControl.xaml.cs">
       <DependentUpon>Register_Page_UserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Start_Page_UserControl.xaml.cs">
-      <DependentUpon>Start_Page_UserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\User_Page_UserControl.xaml.cs">
       <DependentUpon>User_Page_UserControl.xaml</DependentUpon>
     </Compile>
@@ -180,7 +185,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Admin_Page_Company_Statistic_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Admin_Page_DriverOnMap_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin_Page_SetPrice_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -209,10 +222,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Register_Page_UserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Start_Page_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

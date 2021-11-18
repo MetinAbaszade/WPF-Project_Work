@@ -15,7 +15,9 @@ namespace Project_Work_WPF.ViewModels
 	[AddINotifyPropertyChangedInterface]
 	class Admin_UserPage_ViewModel : BaseViewModel, IPageViewModel
 	{
+		public static double TotalProfit { get; set; } = 0;
 		public static ObservableCollection<Driver> Drivers { get; set; } = new ObservableCollection<Driver>();
+	
 		public Admin_UserPage_ViewModel()
 		{
 
@@ -27,6 +29,20 @@ namespace Project_Work_WPF.ViewModels
 		public static object selecteditem { get; set; }
 
 		public static int customerId = 1;
+
+		static Random random = new Random();
+
+		const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		public static string GetCarNumber()
+		{ 
+			string Number = random.Next(0, 99).ToString() +
+							new string(Enumerable.Repeat(chars, 2)
+							.Select(s => s[random.Next(s.Length)]).ToArray()) +
+							random.Next(100, 999).ToString();
+
+			return Number;
+		}
+
 		private static void GetSampleTableData()
 		{
 			Random random = new Random();
@@ -36,7 +52,8 @@ namespace Project_Work_WPF.ViewModels
 				.RuleFor(o => o.Age, f => random.Next(18, 50))
 				.RuleFor(o => o.Name, f => f.Person.FirstName)
 				.RuleFor(o => o.Surname, f => f.Person.LastName)
-				.RuleFor(o => o.Email, (f, u) => f.Internet.Email(u.Name, u.Surname));
+				.RuleFor(o => o.Email, (f, u) => f.Internet.Email(u.Name, u.Surname))
+			    .RuleFor(o => o.CarNumber, f => GetCarNumber());
 
 			var drivers = userFaker.Generate(30);
 

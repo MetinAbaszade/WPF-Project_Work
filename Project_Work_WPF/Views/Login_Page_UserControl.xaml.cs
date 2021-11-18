@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_Work_WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,27 @@ namespace Project_Work_WPF.Views
 	/// </summary>
 	public partial class Login_Page_UserControl : UserControl
 	{
+		SolidColorBrush myBrush = new SolidColorBrush(Colors.Red);
+		SolidColorBrush myBrush_2 = new SolidColorBrush(Colors.Yellow);
 		public Login_Page_UserControl()
 		{
 			InitializeComponent();
+			MainViewModel.Logged_As = "User";
+		} 
+		private void Toggle_Checked(object sender, RoutedEventArgs e)
+		{
+			MainViewModel.Logged_As = "Admin";
+			Toggle.Background = myBrush_2;
+			Username_TextBox.Text = string.Empty;
+			Password_Box.Password = string.Empty;
+			Password_2Box.Text = string.Empty;
+		}
+		private void Toggle_UnChecked(object sender, RoutedEventArgs e)
+		{
+			MainViewModel.Logged_As = "User";
+			Username_TextBox.Text = string.Empty;
+			Password_Box.Password = string.Empty;
+			Password_2Box.Text = string.Empty;
 		}
 	}
 }

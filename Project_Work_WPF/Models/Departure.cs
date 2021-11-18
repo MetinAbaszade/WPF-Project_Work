@@ -14,5 +14,6 @@ namespace Project_Work_WPF.Models
 		public TimeSpan Duration { get; set; }
 		public string Cost { get; set; }
 		public float Distance { get; set; }
+		public Driver driver { get; set; }
 	}
 }

@@ -21,7 +21,7 @@
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="StackPanelMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="250"/>
-            </DoubleAnimationUsingKeyFrames> 
+            </DoubleAnimationUsingKeyFrames>
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="listViewItem1">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
@@ -31,9 +31,27 @@
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="listViewItem2">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-250"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:1.1" Value="0"/>
-            </DoubleAnimationUsingKeyFrames> 
+            </DoubleAnimationUsingKeyFrames>
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="listViewItem3">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="listViewItem4">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="listViewItem5">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
 
         </Storyboard>
 
@@ -49,9 +67,9 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
 
-        </Storyboard> 
+        </Storyboard>
 
-    </UserControl.Resources> 
+    </UserControl.Resources>
 
     <UserControl.Triggers>
 
@@ -76,9 +94,10 @@
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
-            </StackPanel.RenderTransform> 
+            </StackPanel.RenderTransform>
 
-            <ListViewItem x:Name="listViewItem1"  RenderTransformOrigin="0.4,0.4" Background="Transparent"> 
+            <ListViewItem x:Name="listViewItem1"  RenderTransformOrigin="0.4,0.4" Background="Transparent">
+
                 <ListViewItem.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -90,15 +109,13 @@
 
 
                 <Button Background="Transparent" Command="{Binding GoToAdmin_User}" Width="170"  Margin="10 0">
-                    <StackPanel  Orientation="Horizontal">
+                    <StackPanel  Orientation="Horizontal"  Width="170">
                         <materialDesign:PackIcon Kind="DriversLicense" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
                         <TextBlock Text="Drivers" Margin="10" VerticalAlignment="Center" FontSize="15"/>
                     </StackPanel>
                 </Button>
 
             </ListViewItem>
-
-             
 
             <ListViewItem x:Name="listViewItem2" RenderTransformOrigin="0.5,0.5">
 
@@ -118,11 +135,74 @@
                     </StackPanel>
                 </Button>
 
-            </ListViewItem> 
-                
+            </ListViewItem>
+
+            <ListViewItem x:Name="listViewItem3"  RenderTransformOrigin="0.6,0.6" Background="Transparent">
+
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+
+                <Button Background="Transparent"  Width="170"  Margin="10 0" Command="{Binding GoToAdmin_SetPrice}">
+                    <StackPanel  Orientation="Horizontal" Width="170" >
+                        <materialDesign:PackIcon Kind="Money" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Set Price" Margin="10" VerticalAlignment="Center" FontSize="15"/>
+                    </StackPanel>
+                </Button>
+
+            </ListViewItem>
+
+            <ListViewItem x:Name="listViewItem5"  RenderTransformOrigin="0.7,0.7" Background="Transparent">
+
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+
+                <Button Background="Transparent"  Width="170"  Margin="10 0" Command="{Binding GoToCompany_Statistic}">
+                    <StackPanel  Orientation="Horizontal" Width="170" >
+                        <materialDesign:PackIcon Kind="Finance" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Statiscic" Margin="10" VerticalAlignment="Center" FontSize="15"/>
+                    </StackPanel>
+                </Button>
+
+            </ListViewItem>
+
+            <ListViewItem x:Name="listViewItem4"  RenderTransformOrigin="0.8,0.8" Background="Transparent" Margin="0, 20, 0, 0"  VerticalAlignment="Bottom">
+
+                <ListViewItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ListViewItem.RenderTransform>
+
+                <Button Background="Transparent"  Width="170"  Margin="10 0" Command="{Binding GoTo_Login}" VerticalAlignment="Bottom">
+                    <StackPanel  Orientation="Horizontal" Width="170" >
+                        <materialDesign:PackIcon Kind="Logout" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Log Out" Margin="10" VerticalAlignment="Center" FontSize="15"/>
+                    </StackPanel>
+                </Button>
+
+            </ListViewItem>
+
+
+
+
         </StackPanel>
 
-        <Grid x:Name="GridMain" Background="#FFFBFBFB" Width="800" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="GridMain" Background="#FFFBFBFB" Width="800" RenderTransformOrigin="0.6,0.6">
 
             <Grid.RenderTransform>
                 <TransformGroup>
@@ -140,7 +220,7 @@
 
             <Button x:Name="ButtonCloseMenu"   Width="40" Height="40" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5" Click="ButtonCloseMenu_Click" Visibility="Collapsed">
                 <materialDesign:PackIcon Kind="Menu" Foreground="#FF3580BF"/>
-            </Button> 
+            </Button>
 
             <Button x:Name="ButtonOpenMenu"   Width="40" Height="35" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3" Click="ButtonOpenMenu_Click">
                 <materialDesign:PackIcon Kind="Menu" Foreground="#FF3580BF"  Height="40" Width="30"/>
@@ -150,5 +230,5 @@
 
         </Grid>
     </Grid>
-        
+
 </UserControl>

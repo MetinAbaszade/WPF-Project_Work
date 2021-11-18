@@ -43,7 +43,7 @@ namespace Project_Work_WPF.ViewModels
 				{
 					MainViewModel.Add_Admin(Username, Password);
 					MessageBox.Show("Succesfully Completed");
-					GoTo_SignIn.Execute(obj); 
+					GoTo_SignIn.Execute(obj);
 				}
 				catch (Exception a)
 				{
@@ -86,20 +86,19 @@ namespace Project_Work_WPF.ViewModels
 		}
 
 
-		private static ICommand _goTo1;
 
 		public static ICommand GoTo_SignIn
 		{
 			get
 			{
-				return _goTo1 ?? (_goTo1 = new RelayCommand(x =>
+				return new RelayCommand(x =>
 				{
 					Username = string.Empty;
 					Password = string.Empty;
 					Repeat_Password = string.Empty;
 
 					Mediator.Notify("GoToLogIn", "");
-				}));
+				});
 			}
 		}
 
