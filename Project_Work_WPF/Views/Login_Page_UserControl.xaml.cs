@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,6 +31,7 @@ namespace Project_Work_WPF.Views
 		} 
 		private void Toggle_Checked(object sender, RoutedEventArgs e)
 		{
+			new SoundPlayer(Properties.Resources.Transition).Play();
 			MainViewModel.Logged_As = "Admin";
 			Toggle.Background = myBrush_2;
 			Username_TextBox.Text = string.Empty;
@@ -38,6 +40,7 @@ namespace Project_Work_WPF.Views
 		}
 		private void Toggle_UnChecked(object sender, RoutedEventArgs e)
 		{
+			new SoundPlayer(Properties.Resources.Transition).Play();
 			MainViewModel.Logged_As = "User";
 			Username_TextBox.Text = string.Empty;
 			Password_Box.Password = string.Empty;

@@ -79,7 +79,9 @@
                     <Grid Grid.Column="0">
                         <Button Grid.Row="3" Grid.Column="0"  Content="Sign In" 
                                 HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                Margin="20, 10, 0, 0" Command="{Binding GoTo_SignIn}"/>
+                                Margin="20, 10, 0, 0" Command="{Binding GoTo_SignIn}" > 
+                        </Button>
+
                     </Grid>
 
 

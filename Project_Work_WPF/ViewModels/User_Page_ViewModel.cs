@@ -535,7 +535,8 @@ namespace Project_Work_WPF.ViewModels
 			return "";
 		}
 
-
+		
+		
 		public async void GetCurrentLocation()
 		{
 			if (Route.Count == 0)

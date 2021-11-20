@@ -73,3 +73,14 @@ C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Adm
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Admin_Page_SetPrice_UserControl.baml
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Admin_Page_Company_Statistic_UserControl.g.cs
 C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Admin_Page_Company_Statistic_UserControl.baml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\WpfAnimatedGif.dll
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\WpfAnimatedGif.pdb
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\WpfAnimatedGif.xml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Completed_Window.g.cs
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Completed_Window.baml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Error_Window.g.cs
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\obj\Debug\Views\Error_Window.baml
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Microsoft.Windows.Shell.dll
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\WinChrome.dll
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\Microsoft.Windows.Shell.pdb
+C:\Users\User\source\repos\Project_Work_WPF\Project_Work_WPF\bin\Debug\WinChrome.pdb

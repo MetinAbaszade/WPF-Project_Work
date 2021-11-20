@@ -1,6 +1,8 @@
 ﻿using Project_Work_WPF.Commands;
 using Project_Work_WPF.Navigation;
+using Project_Work_WPF.Views;
 using PropertyChanged;
+using System.Media;
 using System.Windows;
 using System.Windows.Input;
 
@@ -46,7 +48,7 @@ namespace Project_Work_WPF.ViewModels
 		}
 
 		private RelayCommand _goTo1;
-		private RelayCommand _goTo44;
+		private RelayCommand _goTo44; 
 
 		public RelayCommand GoTo_SignIn
 		{
@@ -67,7 +69,15 @@ namespace Project_Work_WPF.ViewModels
 
 					return new RelayCommand(x =>
 					{
-						MessageBox.Show("Data is False");
+						Error_Window error_Window = new Error_Window(); 
+						error_Window.Left = Application.Current.MainWindow.Left;
+						error_Window.Top = Application.Current.MainWindow.Top;
+
+						error_Window.Left += Application.Current.MainWindow.Width / 2;
+						error_Window.Top += Application.Current.MainWindow.Height / 2;
+
+						new SoundPlayer(Properties.Resources.Error_Sound_Effect).Play();
+						error_Window.ShowDialog();
 					});
 				}
 
@@ -86,7 +96,15 @@ namespace Project_Work_WPF.ViewModels
 
 					return new RelayCommand(x =>
 					{
-						MessageBox.Show("Data is False");
+						Error_Window error_Window = new Error_Window();
+						error_Window.Left = Application.Current.MainWindow.Left;
+						error_Window.Top = Application.Current.MainWindow.Top;
+
+						error_Window.Left += Application.Current.MainWindow.Width / 2;
+						error_Window.Top += Application.Current.MainWindow.Height / 2;
+
+						new SoundPlayer(Properties.Resources.Error_Sound_Effect).Play();
+						error_Window.ShowDialog();
 					});
 				}
 			}

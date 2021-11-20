@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Project_Work_WPF.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:components="clr-namespace:Project_Work_WPF.Components"
+             xmlns:wpfanimated="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -22,31 +23,27 @@
     </UserControl.Resources>
 
 
-    <Grid Background="Orange">
 
-        <Grid.RowDefinitions>
-            <RowDefinition  Height="6*"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+    <Grid> 
+        <Image wpfanimated:ImageBehavior.AnimatedSource= "pack://application:,,,/Resources/Background.gif"
+               wpfanimated:ImageBehavior.RepeatBehavior="3"
+               wpfanimated:ImageBehavior.AnimateInDesignMode="False"
+               wpfanimated:ImageBehavior.AutoStart="True" Height="470"/>
 
-        <Grid Grid.Row="0">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition ></ColumnDefinition>
-                <ColumnDefinition ></ColumnDefinition>
-                <ColumnDefinition ></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-            <Button VerticalAlignment="Top" Margin="13, 13, 0, 0"
+        <Button VerticalAlignment="Top" Margin="13, 13, 0, 0"
                     Width="40" HorizontalAlignment="Left" Background="Transparent" 
                     BorderThickness="1" BorderBrush="Black" Command="{Binding GoTo_SignIn}">
-                <Image Source="/Resources/Back Icon.png" Margin="-20"></Image>
-            </Button>
+            <Image Source="/Resources/Back Icon.png" Margin="-20"></Image>
+        </Button>
 
-            <Grid Grid.Column="1">
-
+        <Border Grid.Column="1" Width="280" Height="320" VerticalAlignment="Center" Margin="0,0,0, 0" 
+                       Background="White" Opacity="0.6">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>
+            </Border.Effect>
+            
+            <Grid> 
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -55,9 +52,11 @@
                 </Grid.RowDefinitions>
 
                 <TextBox Name="Username_TextBox" Grid.Row="1" materialDesign:HintAssist.Hint="Username"  
-                         FontSize="20" Text="{Binding Username}"
+                         FontSize="20" Text="{Binding Username}" 
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                          HorizontalAlignment="Center" Width="150"/>
+
+                <Label Grid.Row="1" Content="REGISTER" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Gray" FontSize="18" Margin="0, -33, 0, 0"/>
 
                 <components:BindablePasswordBox x:Name ="password_box"  Grid.Row="2" 
                              materialDesign:HintAssist.Hint="Password"  FontSize="20" 
@@ -73,7 +72,7 @@
                           HorizontalAlignment="Center" Width="150"/>
 
 
-                <Button Grid.Row="2" Grid.Column="1" Width="30" Height="19" 
+                <Button Grid.Row="2"  Width="30" Height="19" 
                         HorizontalAlignment="Right" Margin="0, 12, 23, 0"  
                         Background="Transparent"  BorderThickness="0"
                         Command="{Binding Hide}">
@@ -85,12 +84,15 @@
                     FontSize="18"  HorizontalAlignment="Center" Width="150"
                     Password="{Binding Repeat_Password}"/>
 
-                <Button Grid.Row="4"  Content="Register" HorizontalAlignment="Center" 
+                <Button Grid.Row="5" Content="Register" HorizontalAlignment="Center" 
                         VerticalAlignment="Center" Margin="0, 10, 0, 0" 
-                        Command="{Binding Register_Command, UpdateSourceTrigger=Default}"/>
-
-
+                        Command="{Binding Register_Command, UpdateSourceTrigger=Default}"
+                        >
+                </Button>
             </Grid>
-        </Grid>
-    </Grid>
+        </Border>
+
+
+    </Grid> 
+
 </UserControl>

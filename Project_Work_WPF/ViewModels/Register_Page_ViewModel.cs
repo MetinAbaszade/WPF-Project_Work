@@ -1,7 +1,10 @@
 ﻿using Project_Work_WPF.Commands;
 using Project_Work_WPF.Navigation;
+using Project_Work_WPF.Views;
 using PropertyChanged;
 using System;
+using System.Media;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
@@ -27,13 +30,31 @@ namespace Project_Work_WPF.ViewModels
 				try
 				{
 					MainViewModel.Add_User(Username, Password);
-					MessageBox.Show("Succesfully Completed");
+					Completed_Window completed_Window = new Completed_Window();
+
+					completed_Window.Left = Application.Current.MainWindow.Left;
+					completed_Window.Top = Application.Current.MainWindow.Top;
+
+					completed_Window.Left += Application.Current.MainWindow.Width / 2;
+					completed_Window.Top += Application.Current.MainWindow.Height / 2;
+
+					new SoundPlayer(Properties.Resources.Completed_Sound_Effect).Play(); 
+					completed_Window.ShowDialog();
+
 					GoTo_SignIn.Execute(obj);
 
 				}
 				catch (Exception a)
 				{
-					MessageBox.Show(a.Message);
+					Error_Window error_Window = new Error_Window();
+					error_Window.Left = Application.Current.MainWindow.Left;
+					error_Window.Top = Application.Current.MainWindow.Top;
+
+					error_Window.Left += Application.Current.MainWindow.Width / 2;
+					error_Window.Top += Application.Current.MainWindow.Height / 2;
+
+					new SoundPlayer(Properties.Resources.Error_Sound_Effect).Play();
+					error_Window.ShowDialog();
 				}
 			}
 
@@ -42,12 +63,30 @@ namespace Project_Work_WPF.ViewModels
 				try
 				{
 					MainViewModel.Add_Admin(Username, Password);
-					MessageBox.Show("Succesfully Completed");
+					Completed_Window completed_Window = new Completed_Window();
+
+					completed_Window.Left = Application.Current.MainWindow.Left;
+					completed_Window.Top = Application.Current.MainWindow.Top; 
+
+					completed_Window.Left += Application.Current.MainWindow.Width / 2;
+					completed_Window.Top += Application.Current.MainWindow.Height / 2;
+
+					new SoundPlayer(Properties.Resources.Completed_Sound_Effect).Play(); 
+					completed_Window.ShowDialog();
+
 					GoTo_SignIn.Execute(obj);
 				}
 				catch (Exception a)
 				{
-					MessageBox.Show(a.Message);
+					Error_Window error_Window = new Error_Window();
+					error_Window.Left = Application.Current.MainWindow.Left;
+					error_Window.Top = Application.Current.MainWindow.Top;
+
+					error_Window.Left += Application.Current.MainWindow.Width / 2;
+					error_Window.Top += Application.Current.MainWindow.Height / 2;
+
+					new SoundPlayer(Properties.Resources.Error_Sound_Effect).Play();
+					error_Window.ShowDialog();
 				}
 			}
 		}
