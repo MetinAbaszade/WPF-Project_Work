@@ -7,8 +7,16 @@
              xmlns:local="clr-namespace:Project_Work_WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="900">
- 
-    
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="PushPinTemplate" TargetType="map:Pushpin" >
+                <Image Source="/Resources/Taxi_Icon.png" Height="75" Width="45" Margin="0, 0, 0, 0"></Image>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -136,7 +144,7 @@
         <!--CredentialsProvider="{Binding Provider}"-->
 
         <Grid Grid.Column="1">
-            <map:Map Name="m"   
+            <map:Map Name="m"   CredentialsProvider="{Binding Provider}"
                      ZoomLevel="{Binding zoomlevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Center="{Binding center, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseDoubleClick="Map_MouseDoubleClick"> 
                 <map:MapItemsControl ItemsSource="{Binding Route}">
 

@@ -122,16 +122,6 @@ namespace Project_Work_WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Driver_Icon {
-            get {
-                object obj = ResourceManager.GetObject("Driver_Icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap error_img {
             get {
                 object obj = ResourceManager.GetObject("error_img", resourceCulture);
@@ -174,6 +164,16 @@ namespace Project_Work_WPF.Properties {
         internal static System.Drawing.Bitmap Mark {
             get {
                 object obj = ResourceManager.GetObject("Mark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pack_Panel {
+            get {
+                object obj = ResourceManager.GetObject("Pack_Panel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
@@ -146,7 +147,7 @@ namespace Project_Work_WPF.ViewModels
 				Route.Remove(routeLine);
 				currentdeparture.EndTime = DateTime.Now;
 				currentdeparture.Duration = currentdeparture.EndTime.Subtract(currentdeparture.StartTime);
-				Departures.Add(currentdeparture);
+				
 
 				History_Page_ViewModel.Departures = Departures;
 				From = string.Empty;
@@ -163,7 +164,10 @@ namespace Project_Work_WPF.ViewModels
 				Random random = new Random();
 				int index = random.Next(0, Admin_UserPage_ViewModel.Drivers.Count - 1);
 				currentdeparture.driver = Admin_UserPage_ViewModel.Drivers[index];
-				Admin_UserPage_ViewModel.Drivers[index].setPoint(EvaluationWindow.star_count);				
+				Departures.Add(currentdeparture);
+				Admin_UserPage_ViewModel.Drivers[index].setPoint(EvaluationWindow.star_count);
+				var str = JsonConvert.SerializeObject(Admin_UserPage_ViewModel.Drivers, Formatting.Indented);
+				File.WriteAllText("Drivers.json", str);
 				string price = currentdeparture.Cost;
 				Admin_Page_Company_Statistic_ViewModell.TotalProfit += double.Parse(price.Split('A')[0]);
 				MonthlyProfit += double.Parse(price.Split('A')[0]);
@@ -363,6 +367,7 @@ namespace Project_Work_WPF.ViewModels
 					pushpin.Location = new Microsoft.Maps.MapControl.WPF.Location(fromLatitude, fromLongitude);
 
 					pushpin.Background = imgB;
+				 
 
 					taxies.Add(pushpin);
 					Route.Add(pushpin);
@@ -518,7 +523,7 @@ namespace Project_Work_WPF.ViewModels
 			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
 			Per_Month_Timer.Interval = new TimeSpan(30, 0, 0);
 			Per_Month_Timer.Tick += Per_Month_Tick;
-			imgB.Viewport = new Rect(-0.29, -0.3, 1.7, 1.7);
+			imgB.Viewport = new Rect(-0.35, -0.5, 1.7, 1.7);
 			timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
 			timer.Tick += Timer_Tick;
 			GetCurrentLocation();

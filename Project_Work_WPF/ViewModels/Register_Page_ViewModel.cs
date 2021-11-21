@@ -25,70 +25,35 @@ namespace Project_Work_WPF.ViewModels
 
 		static void Register(object obj)
 		{
-			if (MainViewModel.Logged_As == "User")
+			try
 			{
-				try
-				{
-					MainViewModel.Add_User(Username, Password);
-					Completed_Window completed_Window = new Completed_Window();
+				MainViewModel.Add_User(Username, Password);
+				Completed_Window completed_Window = new Completed_Window();
 
-					completed_Window.Left = Application.Current.MainWindow.Left;
-					completed_Window.Top = Application.Current.MainWindow.Top;
+				completed_Window.Left = Application.Current.MainWindow.Left;
+				completed_Window.Top = Application.Current.MainWindow.Top;
 
-					completed_Window.Left += Application.Current.MainWindow.Width / 2;
-					completed_Window.Top += Application.Current.MainWindow.Height / 2;
+				completed_Window.Left += Application.Current.MainWindow.Width / 2;
+				completed_Window.Top += Application.Current.MainWindow.Height / 2;
 
-					new SoundPlayer(Properties.Resources.Completed_Sound_Effect).Play(); 
-					completed_Window.ShowDialog();
+				new SoundPlayer(Properties.Resources.Completed_Sound_Effect).Play();
+				completed_Window.ShowDialog();
 
-					GoTo_SignIn.Execute(obj);
+				GoTo_SignIn.Execute(obj);
 
-				}
-				catch (Exception a)
-				{
-					Error_Window error_Window = new Error_Window();
-					error_Window.Left = Application.Current.MainWindow.Left;
-					error_Window.Top = Application.Current.MainWindow.Top;
-
-					error_Window.Left += Application.Current.MainWindow.Width / 2;
-					error_Window.Top += Application.Current.MainWindow.Height / 2;
-
-					new SoundPlayer(Properties.Resources.Error_Sound_Effect).Play();
-					error_Window.ShowDialog();
-				}
 			}
-
-			else
+			catch (Exception a)
 			{
-				try
-				{
-					MainViewModel.Add_Admin(Username, Password);
-					Completed_Window completed_Window = new Completed_Window();
+				Error_Window error_Window = new Error_Window();
+				error_Window.Left = Application.Current.MainWindow.Left;
+				error_Window.Top = Application.Current.MainWindow.Top;
 
-					completed_Window.Left = Application.Current.MainWindow.Left;
-					completed_Window.Top = Application.Current.MainWindow.Top; 
+				error_Window.Left += Application.Current.MainWindow.Width / 2;
+				error_Window.Top += Application.Current.MainWindow.Height / 2;
 
-					completed_Window.Left += Application.Current.MainWindow.Width / 2;
-					completed_Window.Top += Application.Current.MainWindow.Height / 2;
-
-					new SoundPlayer(Properties.Resources.Completed_Sound_Effect).Play(); 
-					completed_Window.ShowDialog();
-
-					GoTo_SignIn.Execute(obj);
-				}
-				catch (Exception a)
-				{
-					Error_Window error_Window = new Error_Window();
-					error_Window.Left = Application.Current.MainWindow.Left;
-					error_Window.Top = Application.Current.MainWindow.Top;
-
-					error_Window.Left += Application.Current.MainWindow.Width / 2;
-					error_Window.Top += Application.Current.MainWindow.Height / 2;
-
-					new SoundPlayer(Properties.Resources.Error_Sound_Effect).Play();
-					error_Window.ShowDialog();
-				}
-			}
+				new SoundPlayer(Properties.Resources.Error_Sound_Effect).Play();
+				error_Window.ShowDialog();
+			} 
 		}
 
 		Action<object> Register_Actoin = Register;

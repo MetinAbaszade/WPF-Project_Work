@@ -14,6 +14,8 @@ namespace Project_Work_WPF.Models
 			this.id = DriverID;
 		}
 
+		public Driver() { }
+
 		public Driver(string name, string surname, string email, int age, string ID)
 		{
 			Name = name;

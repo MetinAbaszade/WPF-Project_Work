@@ -75,7 +75,7 @@ namespace Project_Work_WPF.ViewModels
 
 		public Admin_Page_DriverOnMap_ViewModel()
 		{
-			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Driver Icon.png"));
+			imgB.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Resources/Taxi Icon.png"));
 			imgB.Viewport = new Rect(-0.29, -0.3, 1.7, 1.7);
 		}
 	}

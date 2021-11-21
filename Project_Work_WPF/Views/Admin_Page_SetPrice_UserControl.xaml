@@ -8,10 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="#c5d5cb">
-        <TextBox Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 0, 100" FontSize="25"
+        <TextBox Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 0, 100" FontSize="25" Background="Transparent" BorderThickness="0"
                  Width="38"/>
         <TextBox Text="AZN/KM"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="120, 10, 0, 100" FontSize="15" Background="Transparent"
-                 Width="80"/>
+                 Width="80" BorderThickness="0"/>
 
         <Slider Width="250" VerticalAlignment="Center" TickPlacement="BottomRight" Height="40" Name="slValue"
                 Minimum="0.1" Maximum="10" LargeChange="2" Value="{Binding XValue}"/>

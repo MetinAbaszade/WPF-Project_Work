@@ -1,9 +1,11 @@
-﻿using Project_Work_WPF.Commands;
+﻿using Newtonsoft.Json;
+using Project_Work_WPF.Commands;
 using Project_Work_WPF.Models;
 using Project_Work_WPF.Navigation;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +31,12 @@ namespace Project_Work_WPF.ViewModels
 		public RelayCommand AddDriver_Command { get; set; } = new RelayCommand(
 			x =>
 			{
-				Admin_UserPage_ViewModel.Drivers.Add(new Models.Driver(Name, Surname, Email, Age, (++Admin_UserPage_ViewModel.customerId).ToString()));
+				Admin_UserPage_ViewModel.Drivers.Add(new Models.Driver(Name, Surname, Email, Age, (Admin_UserPage_ViewModel.customerId).ToString()));
+				if (!File.Exists("Drivers.json")) {
+					File.Create("Drivers.json");
+				}
+				var str = JsonConvert.SerializeObject(Admin_UserPage_ViewModel.Drivers, Formatting.Indented);
+				File.WriteAllText("Drivers.json", str);
 				Mediator.Notify("GoToAdmin_UserPage", "");
 			}, AddDriver_Predicate
 		);

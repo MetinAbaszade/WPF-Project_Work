@@ -16,7 +16,7 @@ namespace Project_Work_WPF.ViewModels
 		public static string Logged_As = "User";
 
 		static List<Models.Person> Users = new List<Models.Person>();
-		static List<Models.Person> Admins = new List<Models.Person>();
+		static Models.Person Admin = new Models.Person("Namiq", "0000");
 		static List<Driver> Drivers = new List<Driver>();
 
 		public static void Add_User(string username, string password)
@@ -44,24 +44,10 @@ namespace Project_Work_WPF.ViewModels
 				return false;
 			}
 		}
-
-		public static void Add_Admin(string username, string password)
-		{
-			if (Admins.Exists(x => x.Username == username))
-			{
-				throw new InvalidDataException();
-			}
-			else
-			{
-				Models.Person Admin = new Models.Person(username, password);
-				Admins.Add(Admin);
-			}
-		}
-
 		public static bool Check_Admin(string username, string password)
 		{
 
-			if (Admins.Exists(x => x.Username == username && x.Password == password))
+			if (Admin.Password == password && Admin.Username == username)
 			{
 				return true;
 			}

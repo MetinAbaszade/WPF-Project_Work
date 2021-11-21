@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Project_Work_WPF.Views"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="405" d:DesignWidth="800">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -20,37 +20,48 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+    <Grid>
 
+        <Image Source="/Resources/Pack Panel.jpg"></Image>
+        
         <Button VerticalAlignment="Top" Margin="13, 13, 0, 0"
                     Width="40" HorizontalAlignment="Left" Background="Transparent" 
                     BorderThickness="1" BorderBrush="Black" Command="{Binding GoTo_Drivers}" Click="Button_Click">
             <Image Source="/Resources/Back Icon.png" Margin="-20"></Image>
         </Button>
 
-        <TextBox Grid.Row="0" Background="AliceBlue" Height="50" Width="220" Margin="0, 0, 0, 15"
+        <Border  Background="White" Height="400" Width="300" CornerRadius="100,0 ,0 , 100" HorizontalAlignment="Right" Margin="0, 0, 50, 0"
+                 Opacity="0.5">
+         </Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+
+                <TextBox Grid.Row="1" Background="AliceBlue" Height="50" Width="220" Margin="420, -10, 0, 0" 
                      materialDesign:HintAssist.Hint="Name" BorderThickness="1" FontSize="15" Name="Name_txtbox"
-                     Style="{StaticResource MaterialDesignTextBoxBase}" Text="{Binding Name}"></TextBox>
-        
-        <TextBox Grid.Row="1" Background="AliceBlue" Height="50" Width="220" Margin="0, 0, 0, 15"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Name}"></TextBox>
+
+            <TextBox Grid.Row="2" Background="AliceBlue" Height="50" Width="220"  Margin="420, -10, 0, 0"
                      materialDesign:HintAssist.Hint="Surname" BorderThickness="1" FontSize="15" Name="Surname_txtbox"
-                     Style="{StaticResource MaterialDesignTextBoxBase}" Text="{Binding Surname}"></TextBox>
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Surname}"></TextBox>
 
-        <TextBox Grid.Row="2" Background="AliceBlue" Height="50" Width="220" Margin="0, 0, 0, 15"
+            <TextBox Grid.Row="3" Background="AliceBlue" Height="50" Width="220" Margin="420, -10, 0, 0"
                      materialDesign:HintAssist.Hint="Email" BorderThickness="1" FontSize="15" Name="Email_txtbox"
-                     Style="{StaticResource MaterialDesignTextBoxBase}" Text="{Binding Email}"></TextBox>
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding Email}"></TextBox>
 
-        <xctk:IntegerUpDown Grid.Row="3" Width="130" Height="40" Minimum="18" Maximum="60" Value="{Binding Age}" Name="Age_Box"/>
+                <xctk:IntegerUpDown Grid.Row="4" Width="130" Height="40" Minimum="18" Maximum="60" Value="{Binding Age}" Name="Age_Box"
+                                    Margin="420, -10, 0, 0"/>
 
-        <Button Grid.Row="4" Width="160" Height="35" Command="{Binding AddDriver_Command}"> Add Driver</Button>
-
+            <Button Grid.Row="5" Width="160" Height="35" Command="{Binding AddDriver_Command}" Margin="420, -30, 0, 0"
+                        Style="{StaticResource MaterialDesignOutlinedButton}">Add Driver</Button>
+            </Grid> 
     </Grid>
 
 </UserControl>
